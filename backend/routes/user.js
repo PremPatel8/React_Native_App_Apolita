@@ -33,4 +33,18 @@ router.post("/signup", async (req, res) => {
     } 
 });
 
+router.post("/login", async (req, res) => {
+    const { email, password } = req.body;
+    try {
+        if (!(firstname || lastname || email || password)) {
+            errMsg = "mandatory field missing field in request";
+            logger.error(errMsg);
+            return res.status(401).json({ error: errMsg });
+        }
+        // TODO: code for user login 
+    } catch {
+        // catch any error
+    }
+});  
+
 module.exports = router;
