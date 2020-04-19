@@ -25,9 +25,8 @@ router.post("/signup", async (req, res) => {
     }
 
     try {
-
-
-        // TODO: code for user login
+        // TODO: add code for signing up user and return 200 OK 
+        // on successful creation of user in the DB
     } catch (err) {
         // catch any error
     } 
@@ -41,7 +40,7 @@ router.post("/login", async (req, res) => {
             logger.error(errMsg);
             return res.status(401).json({ error: errMsg });
         }
-        // TODO: code for user login 
+        // TODO: code to authenticate the user 
     } catch {
         // catch any error
     }
