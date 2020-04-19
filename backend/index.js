@@ -4,6 +4,7 @@ const cors = require("cors");
 
 const logger = require('./logger/logger');
 const userRoutes = require("./routes/user");
+const courseRoutes = require("./routes/course");
 
 const PORT = process.env.PORT || 8080;
 
@@ -14,6 +15,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 app.use('/api/user', userRoutes);
+app.use('/api/course', courseRoutes);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
