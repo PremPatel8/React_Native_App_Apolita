@@ -19,7 +19,7 @@ router.post("/signup", async (req, res) => {
     try {
         passwordHash = await bcrypt.hash(password, saltRounds)
     } catch (err) {
-        errMsg = "mandatory field missing field in request";
+        errMsg = "password encryption failed, err: " + err;
         logger.error(errMsg);
         return res.status(500).json({ error: errMsg })
     }
