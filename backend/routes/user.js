@@ -34,12 +34,12 @@ router.post("/signup", async (req, res) => {
 
 router.post("/login", async (req, res) => {
     const { email, password } = req.body;
+    if (!(firstname || lastname || email || password)) {
+        errMsg = "mandatory field missing field in request";
+        logger.error(errMsg);
+        return res.status(401).json({ error: errMsg });
+    }
     try {
-        if (!(firstname || lastname || email || password)) {
-            errMsg = "mandatory field missing field in request";
-            logger.error(errMsg);
-            return res.status(401).json({ error: errMsg });
-        }
         // TODO: code to authenticate the user 
     } catch {
         // catch any error
