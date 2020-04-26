@@ -39,6 +39,7 @@ router.post("/login", async (req, res) => {
         logger.error(errMsg);
         return res.status(401).json({ error: errMsg });
     }
+    
     try {
         // TODO: code to authenticate the user 
     } catch {
