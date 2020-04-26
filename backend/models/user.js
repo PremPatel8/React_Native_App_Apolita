@@ -27,3 +27,25 @@ User.create = (newUser, result) => {
         result(null, { id: res.insertId, ...newCustomer });
     });
 };
+
+// @parameters:
+// email: email of the user under consideration 
+// result: callback function to call with the result of this function at the end
+User.findByEmail = (email, result) => {
+    db.query(`SELECT * FROM users WHERE email = ${email}`, (err, res) => {
+        if (err) {
+            logger.error("failed to find given user, err: ", err);
+            result(err, null);
+            return;
+        }
+    
+        if (res.length) {
+            logger.info("found user with email provided: ", res[0]);
+            result(null, res[0]);
+            return;
+        }
+    
+        // couldn't find user with the given email
+        result({ kind: "not_found" }, null);
+    });
+};
