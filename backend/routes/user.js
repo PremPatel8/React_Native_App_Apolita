@@ -9,6 +9,12 @@ const router = express.Router();
 const saltRounds = 10;
 
 router.post("/signup", async (req, res) => {
+    if (!req.body) {
+        errMsg = "request body cannot be empty for POST route: /signup";
+        logger.error(errMsg);
+        return res.status(400).json({ error: errMsg });
+    }
+
     const { firstname, lastname, email, password } = req.body;
     if (!(firstname || lastname || email || password)) {
         errMsg = "mandatory field missing field in request";
@@ -33,6 +39,12 @@ router.post("/signup", async (req, res) => {
 });
 
 router.post("/login", async (req, res) => {
+    if (!req.body) {
+        errMsg = "request body cannot be empty for POST route: /login";
+        logger.error(errMsg);
+        return res.status(400).json({ error: errMsg });
+    }
+
     const { email, password } = req.body;
     if (!(email || password)) {
         errMsg = "mandatory field missing field in request";
