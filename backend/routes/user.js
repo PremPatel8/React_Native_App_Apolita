@@ -5,7 +5,6 @@ const logger = require('../logger/logger');
 const middleware = require("../middlewares/middleware.js");
 
 const router = express.Router();
-
 const saltRounds = 10;
 
 router.post("/signup", async (req, res) => {
@@ -27,14 +26,7 @@ router.post("/signup", async (req, res) => {
     } catch (err) {
         errMsg = "password encryption failed, err: " + err;
         logger.error(errMsg);
-        return res.status(500).json({ error: errMsg })
-    }
-
-    try {
-        // TODO: add code for signing up user and return 200 OK 
-        // on successful creation of user in the DB
-    } catch (err) {
-        // catch any error
+        return res.status(500).json({ error: errMsg });
     } 
 });
 
