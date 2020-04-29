@@ -25,14 +25,14 @@ router.post("/signup", async (req, res) => {
         passwordHash = await bcrypt.hash(password, saltRounds)
 
         const user = new User({
-            firstname = req.body.firstname,
-            lastname = req.body.lastname,
-            email = req.body.email,
-            password = req.body.password,
-            gender = req.body.gender,
-            phonenumber = req.body.phonenumber,
-            city = req.body.city,
-            country = req.body.country,
+            firstname : req.body.firstname,
+            lastname : req.body.lastname,
+            email : req.body.email,
+            password : req.body.password,
+            gender : req.body.gender,
+            phonenumber : req.body.phonenumber,
+            city : req.body.city,
+            country : req.body.country,
         });
 
         User.create(user, (err, data) => {
