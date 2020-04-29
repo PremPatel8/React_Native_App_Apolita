@@ -1,7 +1,7 @@
 const Logger = function () {};
 
 Logger.prototype.info = function (logText) {
-  console.log(`[INFO]  ${new Date()} - ${logText}`);
+  console.log(`[INFO]   ${new Date()} - ${logText}`);
 };
 
 Logger.prototype.debug = function (logText) {
