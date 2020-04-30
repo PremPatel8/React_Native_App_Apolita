@@ -22,13 +22,20 @@ router.post("/signup", async (req, res) => {
     } 
 
     try {
-        passwordHash = await bcrypt.hash(password, saltRounds)
+        User.findByEmail(req.body.email, (err, data) => {
+            if (err && err.kind != "not_found") {
+                return res.status(500).send({
+                    message: err.message || "encountered error while creating the user."
+                });
+            }
+        });
 
+        const passwordHash = await bcrypt.hash(req.body.password, saltRounds)
         const user = new User({
             firstname : req.body.firstname,
             lastname : req.body.lastname,
             email : req.body.email,
-            password : req.body.password,
+            password : passwordHash,
             gender : req.body.gender,
             phonenumber : req.body.phonenumber,
             city : req.body.city,
@@ -37,12 +44,12 @@ router.post("/signup", async (req, res) => {
 
         User.create(user, (err, data) => {
             if (err) {
-                res.status(500).send({
-                    message: err.message || "Some error occurred while creating the Customer."
+                return res.status(500).send({
+                    message: err.message || "encountered error while creating the user."
                 });
             } 
             
-            res.send(data);
+            return res.send(data);
           });
     } catch (err) {
         errMsg = "password encryption failed, err: " + err;
