@@ -10,6 +10,7 @@ import {
 import SelectPicker from 'react-native-form-select-picker';
 import { Header, Divider } from 'react-native-elements';
 import Typography from '@material-ui/core/Typography';
+import { ScrollView } from 'react-native-gesture-handler';
 
 export default class SignUp extends React.Component {
   state = {
@@ -76,7 +77,7 @@ export default class SignUp extends React.Component {
           }}
           backgroundColor='#00BFFF'
         />
-        <ScrollView>
+        <ScrollView style={{width:"80%"}}>
           <Text style={{ marginBottom: 40 }}></Text>
           <View style={styles.inputView}>
             <TextInput
@@ -207,20 +208,21 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
-    //    justifyContent: 'center',
+    alignItems:"center",
+    justifyContent:'center',
+    //alignItems:'stretch',
   },
-  inputView: {
-    width: '80%',
+  inputView:{
+    width:'100%',
     backgroundColor: '#fff',
     height: 50,
     marginBottom: 30,
     borderBottomColor: '#2471A3',
     borderBottomWidth: 2,
-    padding: 1,
+    padding:1,
   },
-  inputText: {
-    height: 50,
+  inputText:{
+    width:'80%',
     fontSize: 15,
     color: '#003f5c',
   },
