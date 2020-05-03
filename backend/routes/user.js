@@ -73,7 +73,13 @@ router.post("/login", async (req, res) => {
     }
     
     try {
-        // TODO: code to authenticate the user 
+        User.findByEmail(req.body.email, (err, data) => {
+            if (err.kind == "not_found") {
+                errMsg = `user not found with email ${email}`;
+                logger.error(errMsg);
+                return res.status(401).json({ error: errMsg });
+            }
+        });
     } catch {
         // catch any error
     }
