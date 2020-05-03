@@ -1,6 +1,6 @@
 // App.js
 import React from 'react';
-import { StyleSheet, Text, View, Image, SafeAreaView, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, Image, SafeAreaView, ScrollView, Linking } from 'react-native';
 import { Icon, SocialIcon, Divider } from 'react-native-elements';
 import {createStackNavigator} from 'react-navigation-stack';
 import {createAppContainer, NavigationEvents} from 'react-navigation';
@@ -28,10 +28,18 @@ const CustomDrawerContentComponent = (props) => (
     <Divider style={{ marginTop: 140,  backgroundColor: '#2471A3', height: 2}}/>
     <Text style={{ marginTop: 10, marginLeft: 10, marginBottom: 20, fontSize:18 }}>Connect with us on:</Text>
     <View style={{ flex: 1, flexDirection: 'row' }}>
-      <SocialIcon style={{ marginLeft: 20 }} type='facebook'/>
-      <SocialIcon style={{ marginLeft: 10 }} type='instagram'/>
-      <SocialIcon style={{ marginLeft: 10 }} type='twitter'/>
-      <SocialIcon style={{ marginLeft: 10 }} type='youtube'/>
+      <SocialIcon style={{ marginLeft: 20 }} type='facebook'
+      onPress={ ()=>{ Linking.openURL('https://en-gb.facebook.com/login/')}}
+      />
+      <SocialIcon style={{ marginLeft: 10 }} type='instagram'
+      onPress={ ()=>{ Linking.openURL('https://www.instagram.com/accounts/login/?hl=en')}}
+      />
+      <SocialIcon style={{ marginLeft: 10 }} type='twitter' 
+      onPress={ ()=>{ Linking.openURL('https://twitter.com/login')}} 
+      />
+      <SocialIcon style={{ marginLeft: 10 }} type='youtube'
+      onPress={ ()=>{ Linking.openURL('https://www.youtube.com/')}}
+      />
     </View>
     </ScrollView>
   </SafeAreaView>
