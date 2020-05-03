@@ -2,12 +2,15 @@ import React from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, KeyboardAvoidingView } from 'react-native';
 import SelectPicker from 'react-native-form-select-picker';
 import { Header, Divider } from 'react-native-elements';
+import { ScrollView } from 'react-native-gesture-handler';
 
 export default class SignUp extends React.Component {
   state={
     fname:"",
     lname:"",
     email:"",
+    password:"",
+    c_password:"",
     mobnum:"",
     location:"",
     selected:"",
@@ -21,22 +24,23 @@ export default class SignUp extends React.Component {
             centerComponent={{ text: 'SignUp with Apolita', style: { color: '#fff', fontSize: 25  } }}
             backgroundColor='#00BFFF'
         />
-        <Text style={{ marginBottom:40}}></Text>
+        <ScrollView style={{width:"80%"}}>
+        <Text style={{ marginBottom:10}}></Text>
         <View style={styles.inputView} >
           <TextInput  
             style={styles.inputText}
-            placeholder="First Name..." 
+            placeholder="First Name" 
             placeholderTextColor="#003f5c"
             onChangeText={text => this.setState({fname:text})}/>
         </View>
         <View style={styles.inputView} >
           <TextInput 
             style={styles.inputText}
-            placeholder="Last name..." 
+            placeholder="Last name" 
             placeholderTextColor="#003f5c"
             onChangeText={text => this.setState({lname:text})}/>
         </View>
-        <View style={{ paddingRight: 150, marginBottom: 20, marginTop: 10 }}>
+        <View style={{ paddingRight: 10, marginBottom: 20, marginTop: 10 }}>
         <SelectPicker style={{ color: '#003f5c',borderBottomWidth: 2, borderBottomColor: '#2471A3', width: 150 }} 
                       onValueChange={(value) => {this.setState({selected: value})}}
                       placeholder='Select Gender' placeholderTextColor="#003f5c"
@@ -48,14 +52,30 @@ export default class SignUp extends React.Component {
         <View style={styles.inputView} >
           <TextInput  
             style={styles.inputText}
-            placeholder="Email Address..." 
+            placeholder="Email Address" 
             placeholderTextColor="#003f5c"
             onChangeText={text => this.setState({email:text})}/>
         </View>
         <View style={styles.inputView} >
           <TextInput  
             style={styles.inputText}
-            placeholder="Mobile Number..." 
+            placeholder="Password" 
+            placeholderTextColor="#003f5c"
+            secureTextEntry={true}
+            onChangeText={text => this.setState({password:text})}/>
+        </View>
+        <View style={styles.inputView} >
+          <TextInput  
+            style={styles.inputText}
+            placeholder="Confirm Password" 
+            placeholderTextColor="#003f5c"
+            secureTextEntry={true}
+            onChangeText={text => this.setState({c_password:text})}/>
+        </View>
+        <View style={styles.inputView} >
+          <TextInput  
+            style={styles.inputText}
+            placeholder="Mobile Number" 
             placeholderTextColor="#003f5c"
             keyboardType = 'number-pad'
             onChangeText={text => this.setState({mobnum:text})}/>
@@ -63,10 +83,11 @@ export default class SignUp extends React.Component {
         <View style={styles.inputView} >
           <TextInput  
             style={styles.inputText}
-            placeholder="City, Country..." 
+            placeholder="City" 
             placeholderTextColor="#003f5c"
             onChangeText={text => this.setState({location:text})}/>
         </View>
+        </ScrollView>
         <TouchableOpacity style={styles.signupBtn} onPress={() => this.props.navigation.navigate('RegisterConfirm')}>
           <Text style={styles.loginText}>Register with Apolita</Text>
         </TouchableOpacity>
@@ -79,19 +100,21 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
-//    justifyContent: 'center',
+    alignItems:"center",
+    justifyContent:'center',
+    //alignItems:'stretch',
   },
   inputView:{
-    width:"80%",
+    width:'100%',
     backgroundColor: '#fff',
     height:50,
     marginBottom:30,
     borderBottomColor: '#2471A3',
     borderBottomWidth: 2,
-    padding:1
+    padding:1,
   },
   inputText:{
+    width:'80%',
     height:50,
     fontSize:15,
     color:"#003f5c"
