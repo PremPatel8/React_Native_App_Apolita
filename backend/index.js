@@ -14,8 +14,8 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-app.use('/api/user', userRoutes);
-app.use('/api/course', courseRoutes);
+app.use('/user', userRoutes);
+app.use('/course', courseRoutes);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -27,9 +27,11 @@ app.use(function (req, res, next) {
 // error handler
 // no stacktraces leaked to user unless in development environment
 app.use(function (err, req, res, next) {
-  logger.error("backend: unknown route, err: ", err)
+  logger.error(`backend: unknown route: ${req.originalUrl}`);
   res.status(err.status || 500);
   res.json({ error: err });
 });
 
-module.exports = app;
+app.listen(PORT, () => {
+  logger.info(`Server is running on port ${PORT}...`);
+});
