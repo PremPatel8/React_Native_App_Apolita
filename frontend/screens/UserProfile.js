@@ -6,7 +6,8 @@ import {
   Image,
   TouchableOpacity
 } from 'react-native';
-import { Divider, Icon } from 'react-native-elements';
+import { Icon } from 'react-native-elements';
+import DetailListItem from '../components/DetailListItem';
 
 export default class UserProfile extends Component {
 
@@ -17,31 +18,39 @@ export default class UserProfile extends Component {
               <TouchableOpacity style={{ paddingRight: 330, paddingTop: 50}} onPress={() => this.props.navigation.goBack(null)}>
                   <Icon name='arrow-back' color='#fff' size={30}/>
               </TouchableOpacity>
+              <Text style={styles.name}>User name</Text>
           </View>
           <Image style={styles.avatar} source={require('../assets/userpp.png')}/>
-          <View style={styles.body}>
-            <View style={styles.bodyContent}>
-              <Text style={styles.name}>Rahul Tevatia</Text>
-              <Text style={styles.info}>email@email.com / +9 999999999</Text>
-              <Text style={styles.description}>Arlington, Texas, USA</Text>
-              <Divider style={{ backgroundColor: '#2471A3', height: 2, width: 290, marginBottom:30 }} />
-              <TouchableOpacity style={styles.buttonContainer}>
-                <Text>Edit Personal Details</Text>  
-              </TouchableOpacity>              
-              <TouchableOpacity style={styles.buttonContainer}>
-                <Text>Check Completed courses</Text> 
-              </TouchableOpacity>
+            <View style={styles.bodyContent}>  
+              <DetailListItem
+                  icon="mail"
+                  title="Email"
+                  subtitle="email@gmail.com"/>
+              <DetailListItem
+                  icon="phone"
+                  title="Phone"
+                  subtitle="+9999999999"/>
+              <DetailListItem
+                  icon="home"
+                  title="Address"
+                  subtitle="Arlington, Texas, USA"/>
+              <DetailListItem
+                  icon="face"
+                  title="Courses Instructor"
+                  subtitle="Jennifer"/>
             </View>
-        </View>
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
   header:{
     backgroundColor: "#00BFFF",
-    height:200,
+    height:300,
   },
   avatar: {
     width: 130,
@@ -58,36 +67,14 @@ const styles = StyleSheet.create({
     marginTop:20,
   },
   bodyContent: {
-//    flex: 1,
-    alignItems: 'center',
-    padding:30,
+    flex: 1,
+    backgroundColor: 'white'
   },
   name:{
     fontSize:28,
-    color: "#696969",
-    fontWeight: "600"
-  },
-  info:{
-    fontSize:16,
-    color: "#00BFFF",
-    marginTop:10
-  },
-  description:{
-    fontSize:16,
-    color: "#696969",
-    marginTop:10,
-    textAlign: 'center',
-    marginBottom: 30
-  },
-  buttonContainer: {
-    marginTop:10,
-    height:45,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom:20,
-    width:250,
-    borderRadius:30,
-    backgroundColor: "#00BFFF",
+    color: "#fff",
+    fontWeight: "600",
+    alignSelf: 'center',
+    marginTop:170,
   },
 });
