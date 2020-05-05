@@ -21,38 +21,42 @@ router.post("/signup", async (req, res) => {
         return res.status(401).json({ error: errMsg });
     } 
 
+    // const passwordHash = await bcrypt.hash(req.body.password, saltRounds)
     try {
         User.findByEmail(req.body.email, (err, data) => {
             if (err && err.kind != "not_found") {
-                return res.status(500).send({
+                logger.error(`/routes/user.js, func: findByEmail, err: ${err.message}`);
+                return res.status(500).json({
                     message: err.message || "encountered error while creating the user."
+                });
+            } else {
+                const user = new User({
+                    firstname : req.body.firstname,
+                    lastname : req.body.lastname,
+                    email : req.body.email,
+                    // password : passwordHash,
+                    password : req.body.password,
+                    gender : req.body.gender,
+                    phonenumber : req.body.phonenumber,
+                    city : req.body.city,
+                    state : req.body.state,
+                    country : req.body.country,
+                });
+
+                User.create(user, (err, data) => {
+                    if (err) {
+                        logger.error(err.message);
+                        res.status(500).json({
+                            message: err.message || "encountered error while creating the user."
+                        });
+                    } 
+                    
+                    return res.status(200).json(data);
                 });
             }
         });
-
-        const passwordHash = await bcrypt.hash(req.body.password, saltRounds)
-        const user = new User({
-            firstname : req.body.firstname,
-            lastname : req.body.lastname,
-            email : req.body.email,
-            password : passwordHash,
-            gender : req.body.gender,
-            phonenumber : req.body.phonenumber,
-            city : req.body.city,
-            country : req.body.country,
-        });
-
-        User.create(user, (err, data) => {
-            if (err) {
-                return res.status(500).send({
-                    message: err.message || "encountered error while creating the user."
-                });
-            } 
-            
-            return res.send(data);
-          });
     } catch (err) {
-        errMsg = "password encryption failed, err: " + err;
+        errMsg = "encountered error while creating the user: " + err;
         logger.error(errMsg);
         return res.status(500).json({ error: errMsg });
     } 
@@ -75,13 +79,15 @@ router.post("/login", async (req, res) => {
     try {
         User.findByEmail(req.body.email, (err, data) => {
             if (err.kind == "not_found") {
-                errMsg = `user not found with email ${email}`;
+                errMsg = `user not found with email - ${email}`;
                 logger.error(errMsg);
-                return res.status(401).json({ error: errMsg });
+                res.status(401).json({ error: errMsg });
             }
         });
     } catch {
-        // catch any error
+        errMsg = "encountered error while creating the user: " + err;
+        logger.error(errMsg);
+        return res.status(500).json({ error: errMsg });
     }
 });  
 
