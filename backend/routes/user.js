@@ -70,7 +70,7 @@ router.post("/login", async (req, res) => {
     }
 
     const { email, password } = req.body;
-    if (!(email || password)) {
+    if (!(req.body.email || req.body.password)) {
         errMsg = "mandatory field missing field in request";
         logger.error(errMsg);
         return res.status(401).json({ error: errMsg });
@@ -81,11 +81,11 @@ router.post("/login", async (req, res) => {
             if (err.kind == "not_found") {
                 errMsg = `user not found with email - ${email}`;
                 logger.error(errMsg);
-                res.status(401).json({ error: errMsg });
+                return res.status(401).json({ error: errMsg });
             }
         });
     } catch {
-        errMsg = "encountered error while creating the user: " + err;
+        errMsg = "encountered error while logging-in user: " + err;
         logger.error(errMsg);
         return res.status(500).json({ error: errMsg });
     }
