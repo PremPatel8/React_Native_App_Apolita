@@ -4,4 +4,5 @@
 
 
 In the frontend directory run: npm install
-and to install material UI extension run: npm install @material-ui/core
+And to install material UI extension run: npm install @material-ui/core
+To run the app: npm start 
