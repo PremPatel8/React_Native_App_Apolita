@@ -3,8 +3,8 @@ const bodyParser = require('body-parser');
 const cors = require("cors");
 
 const logger = require('./logger/logger');
-const userRoutes = require("./routes/user");
-const courseRoutes = require("./routes/course");
+const studentRoutes = require("./routes/student");
+const adminRoutes = require("./routes/admin");
 
 const PORT = process.env.PORT || 8080;
 
@@ -14,8 +14,8 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-app.use('/user', userRoutes);
-app.use('/course', courseRoutes);
+app.use('/admin', adminRoutes);
+app.use('/student', studentRoutes);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
