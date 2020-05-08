@@ -46,7 +46,7 @@ Course.findByCourseID = (courseID, result) => {
 
 // @parameters: 
 // result: callback function to call with the result of this function at the end
-Course.fetchAll = (courseID, result) => {
+Course.fetchAll = (result) => {
     db.query(`SELECT * FROM courses`, (err, res) => {
         if (err) {
             result(err, null);
@@ -59,7 +59,7 @@ Course.fetchAll = (courseID, result) => {
         }
     
         // couldn't find user with the given email
-        result({ kind: "not_found" }, null);
+        result(null, null);
     });
 };
 
