@@ -3,7 +3,7 @@ const bcrypt = require("bcrypt");
 
 // const middleware = require("../middlewares/middleware.js");
 const logger = require('../logger/logger');
-const User = require('../models/user.js');
+const User = require('../models/user');
 
 const router = express.Router();
 const saltRounds = 10;
