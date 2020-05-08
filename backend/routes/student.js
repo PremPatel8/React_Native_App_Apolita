@@ -10,7 +10,7 @@ const saltRounds = 10;
 
 router.post("/signup", async (req, res) => {
     if (!req.body) {
-        errMsg = "request body cannot be empty for POST route: /signup";
+        errMsg = "request body cannot be empty for POST route: /user/signup";
         logger.error(errMsg);
         return res.status(400).json({ error: errMsg });
     }
@@ -64,7 +64,7 @@ router.post("/signup", async (req, res) => {
 
 router.post("/login", async (req, res) => {
     if (!req.body) {
-        errMsg = "request body cannot be empty for POST route: /login";
+        errMsg = "request body cannot be empty for POST route: /user/login";
         logger.error(errMsg);
         return res.status(400).json({ error: errMsg });
     }
@@ -92,5 +92,23 @@ router.post("/login", async (req, res) => {
         return res.status(500).json({ error: errMsg });
     }
 });  
+
+router.post("/fetchall", async (req, res) => {
+}); 
+
+router.get("/enroll", async (req, res) => {
+    const { courseID, userID } = req.body;
+    if (!(courseID || userID)) {
+        errMsg = "mandatory field missing field in request";
+        logger.error(errMsg);
+        return res.status(401).json({ error: errMsg });
+    }
+
+    try {
+        // TODO: code to enroll the user 
+    } catch {
+        // catch any error
+    }
+});
 
 module.exports = router;
