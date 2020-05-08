@@ -1,7 +1,7 @@
 const express = require('express');
 
 const logger = require('../logger/logger');
-const Course = require('../models/admin');
+const Course = require('../models/course');
 
 const router = express.Router();
 
@@ -35,20 +35,11 @@ router.post("/addcourse", async (req, res) => {
 
             return res.status(200).json(data);
         });
-    } catch {
+    } catch (err) {
         errMsg = "encountered error while creating the course: " + err;
         logger.error(errMsg);
         return res.status(500).json({ error: errMsg });
     }
-});
-
-router.post("/fetchallcourse", async (req, res) => {
-    if (!req.body) {
-        errMsg = "request body cannot be empty for POST route: /admin/addcourse";
-        logger.error(errMsg);
-        return res.status(400).json({ error: errMsg });
-    }
-
 });
 
 module.exports = router;

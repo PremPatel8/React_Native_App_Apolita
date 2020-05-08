@@ -1,7 +1,7 @@
 const express = require('express');
 
 const logger = require('../logger/logger');
-const Course = require('../models/admin');
+const Course = require('../models/course');
 
 const router = express.Router();
 
@@ -20,7 +20,7 @@ router.get("/fetchall", async (req, res) => {
 
             return res.status(200).json([]);
         });
-    } catch {
+    } catch (err) {
         errMsg = "encountered error while fetching the courses: " + err;
         logger.error(errMsg);
         return res.status(500).json({ error: errMsg });

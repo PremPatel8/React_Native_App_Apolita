@@ -3,9 +3,9 @@ const logger = require('../logger/logger');
 
 // constructor for Course schema
 const Course = function(course) {
-    this.name = user.name;
-    this.description = user.description;
-    this.image = user.image;
+    this.name = course.name;
+    this.description = course.description;
+    this.image = course.image;
 };
 
 // @parameters:
@@ -19,7 +19,7 @@ Course.create = (newCourse, result) => {
             return;
         }
     
-        logger.info("successfully created new user");
+        logger.info("successfully created new course");
         result(null, { id: res.insertId, ...newCourse });
     });
 };
@@ -39,7 +39,7 @@ Course.findByCourseID = (courseID, result) => {
             return;
         }
     
-        // couldn't find user with the given email
+        // couldn't find course with the given courseID
         result({ kind: "not_found" }, null);
     });
 };
@@ -58,7 +58,7 @@ Course.fetchAll = (result) => {
             return;
         }
     
-        // couldn't find user with the given email
+        // course list is empty
         result(null, null);
     });
 };
