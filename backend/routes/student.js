@@ -24,35 +24,41 @@ router.post("/signup", async (req, res) => {
     // const passwordHash = await bcrypt.hash(req.body.password, saltRounds)
     try {
         User.findByEmail(req.body.email, (err, data) => {
-            if (err && err.kind != "not_found") {
-                logger.error(`/routes/user.js, func: findByEmail, err: ${err.message}`);
-                return res.status(500).json({
-                    message: err.message || "encountered error while creating the user."
-                });
+            if (err) {
+                if (err.kind == "not_found") {
+                    const user = new User({
+                        firstname : req.body.firstname,
+                        lastname : req.body.lastname,
+                        email : req.body.email,
+                        // password : passwordHash,
+                        password : req.body.password,
+                        gender : req.body.gender,
+                        phonenumber : req.body.phonenumber,
+                        city : req.body.city,
+                        state : req.body.state,
+                        country : req.body.country,
+                    });
+    
+                    User.create(user, (err, data) => {
+                        if (err) {
+                            logger.error(`/routes/user.js, func: User.create, err: ${err.message}`);
+                            res.status(500).json({
+                                message: err.message || "encountered error while creating the user."
+                            });
+                        } 
+                        
+                        return res.status(200).json(data);
+                    });
+                } else {
+                    logger.error(`/routes/user.js, func: findByEmail, err: ${err.message}`);
+                    return res.status(500).json({
+                        message: err.message || "encountered error while creating the user."
+                    });  
+                }
             } else {
-                const user = new User({
-                    firstname : req.body.firstname,
-                    lastname : req.body.lastname,
-                    email : req.body.email,
-                    // password : passwordHash,
-                    password : req.body.password,
-                    gender : req.body.gender,
-                    phonenumber : req.body.phonenumber,
-                    city : req.body.city,
-                    state : req.body.state,
-                    country : req.body.country,
-                });
-
-                User.create(user, (err, data) => {
-                    if (err) {
-                        logger.error(err.message);
-                        res.status(500).json({
-                            message: err.message || "encountered error while creating the user."
-                        });
-                    } 
-                    
-                    return res.status(200).json(data);
-                });
+                errMsg = "email provided already exists";
+                logger.error(errMsg);
+                return res.status(409).json({ error: errMsg });
             }
         });
     } catch (err) {
