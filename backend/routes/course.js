@@ -1,28 +1,31 @@
 const express = require('express');
 
+const logger = require('../logger/logger');
+const Course = require('../models/course');
+
 const router = express.Router();
 
-const fs = require("fs")
-
-var path = require('path');
-
-router.post("/fetchall", async (req, res) => {
-}); 
-
-router.get("/enroll", async (req, res) => {
-    const { courseID, userID } = req.body;
-    if (!(courseID || userID)) {
-        errMsg = "mandatory field missing field in request";
-        logger.error(errMsg);
-        return res.status(401).json({ error: errMsg });
-    }
-
+router.get("/fetchall", async (req, res) => {
     try {
-        // TODO: code to enroll the user 
-    } catch {
-        // catch any error
+        Course.fetchAll((err, data) => {
+            if ( err ) {
+                errMsg = `encountered error while fetching courses`;
+                logger.error(errMsg);
+                return res.status(500).json({ error: errMsg });
+            }
+
+            if (data) {
+                return res.status(200).json(data);  
+            }
+
+            return res.status(200).json([]);
+        });
+    } catch (err) {
+        errMsg = "encountered error while fetching the courses: " + err;
+        logger.error(errMsg);
+        return res.status(500).json({ error: errMsg });
     }
-}); 
+});
 
 router.get("/api/course/:id", async(req, res) => {
     const courseID = req.params.id

@@ -59,7 +59,7 @@ export default class LoginScreen extends React.Component {
           }}
           backgroundColor='#00BFFF'
         />
-        <Text style={styles.logo}></Text>
+        {/* <Text style={styles.logo}></Text> */}
         <View style={styles.inputView}>
           <TextInput
             style={styles.inputText}
@@ -79,7 +79,7 @@ export default class LoginScreen extends React.Component {
             onChangeText={(text) => this.setState({ password: text })}
           />
         </View>
-        {errorMessage && (
+        {/* {errorMessage && (
           <Typography
             variant='caption'
             component='p'
@@ -87,7 +87,7 @@ export default class LoginScreen extends React.Component {
           >
             {errorMessage}
           </Typography>
-        )}
+        )} */}
         <TouchableOpacity
           style={styles.loginBtn}
           onPress={() => this.handleSubmit}
