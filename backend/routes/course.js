@@ -1,9 +1,10 @@
 const express = require('express');
-
 const logger = require('../logger/logger');
 const Course = require('../models/course');
-
 const router = express.Router();
+
+const fs = require("fs")
+var path = require('path');
 
 router.get("/fetchall", async (req, res) => {
     try {
@@ -27,21 +28,20 @@ router.get("/fetchall", async (req, res) => {
     }
 });
 
+// Returns a list of paths for all the files associated with a particular courseID
 router.get("/api/course/:id", async(req, res) => {
     const courseID = req.params.id
-    
-    // console.log(courseID)
     
     //change public to the name of the directory where all the assessts are stored on your system
     var folderPath = path.join(__dirname,'..', 'public', courseID)
     
-    // console.log(folderPath)
     try {
         const arrayOfFiles = getAllFiles(folderPath)
-        // console.log(arrayOfFiles)
+
         res.send(arrayOfFiles)
       } catch(e) {
-        console.log(e)
+        errMsg = `encountered error while fetching course materials - ${e}`;
+        logger.error(errMsg);
       } 
 });
 
