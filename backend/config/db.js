@@ -1,7 +1,7 @@
 const dbConfig = {
     HOST: "localhost",
     USER: "root",
-    PASSWORD: "password",
+    PASSWORD: "mysql",
     DB: "apolita"
 };
 
