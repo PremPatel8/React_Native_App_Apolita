@@ -50,4 +50,42 @@ User.findByEmail = (email, result) => {
     });
 };
 
+User.findByEmailPassword = (email1, password1, result) => {
+//    console.log(password1)
+    db.query(`SELECT * FROM users WHERE email = '${email1}' and password = '${password1}'`, (err, res) => {
+//        console.log(err)
+//        console.log(res[0])
+        if (err) {
+            result(err, null);
+            return;
+        }
+    
+        if (res.length) {
+            result(null, res[0]);
+            return;
+        }
+    
+        // couldn't find user with the given email
+        result({ kind: "not_found" }, null);
+    });
+};
+
+User.resetByEmail = (email2, password2, result) => {
+    db.query(`UPDATE users SET password = '${password2}' WHERE email = '${email2}'`, (err, res) => {
+//        console.log(res.affectedRows)
+        if (err) {
+            result(err, null);
+            return;
+        }
+    
+        if (res.affectedRows > 0) {
+            result(null, res[0]);
+            return;
+        }
+    
+        // couldn't find user with the given email
+        result({ kind: "not_found" }, null);
+    });
+};
+
 module.exports = User;
