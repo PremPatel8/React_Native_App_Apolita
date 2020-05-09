@@ -14,7 +14,7 @@ router.post("/signup", async (req, res) => {
         logger.error(errMsg);
         return res.status(400).json({ error: errMsg });
     }
-
+    
     if (!(req.body.firstname || req.body.lastname || req.body.email || req.body.password || req.body.gender || req.body.phonenumber || req.body.city || req.body.country)) {
         errMsg = "mandatory field missing field in request";
         logger.error(errMsg);
@@ -70,7 +70,7 @@ router.post("/signup", async (req, res) => {
 
 router.post("/login", async (req, res) => {
     if (!req.body) {
-        errMsg = "request body cannot be empty for POST route: /user/login";
+        errMsg = "request body cannot be empty for POST route: /login";
         logger.error(errMsg);
         return res.status(400).json({ error: errMsg });
     }
@@ -82,13 +82,14 @@ router.post("/login", async (req, res) => {
     }
     
     try {
-        User.findByEmail(req.body.email, (err, data) => {
+        User.findByEmailPassword(req.body.email, req.body.password, (err, data) => {
             if ( err && err.kind == "not_found") {
-                errMsg = `user not found with email - ${email}`;
+                errMsg = `user not found with email - ${req.body.email}`;
                 logger.error(errMsg);
                 return res.status(401).json({ error: errMsg });
             } else {
                 logger.info(`user successfully logged-in using email: ${req.body.email}`);
+//                console.log(data)
                 return res.status(200).json(data)
             }
         });
@@ -97,7 +98,39 @@ router.post("/login", async (req, res) => {
         logger.error(errMsg);
         return res.status(500).json({ error: errMsg });
     }
-});  
+});
+
+router.post("/reset", async (req, res) => {
+    if (!req.body) {
+        errMsg = "request body cannot be empty for POST route: /login";
+        logger.error(errMsg);
+        return res.status(400).json({ error: errMsg });
+    }
+
+    if (!(req.body.email && req.body.password)) {
+        errMsg = "mandatory field missing field in request";
+        logger.error(errMsg);
+        return res.status(402).json({ error: errMsg });
+    }
+    
+    try {
+        User.resetByEmail(req.body.email, req.body.password, (err, data) => {
+            if ( err || err.kind == "not_found") {
+                errMsg = `user not found with email - ${req.body.email}`;
+                logger.error(errMsg);
+                return res.status(401).json({ error: errMsg });
+            } else {
+                logger.info(`Password reset successful using email: ${req.body.email}`);
+//                console.log(data)
+                return res.status(200).json(data)
+            }
+        });
+    } catch {
+        errMsg = "encountered error while logging-in user: " + err;
+        logger.error(errMsg);
+        return res.status(500).json({ error: errMsg });
+    }
+});
 
 router.post("/fetchall", async (req, res) => {
 }); 

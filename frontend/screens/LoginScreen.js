@@ -16,10 +16,10 @@ export default class LoginScreen extends React.Component {
     errorMessage: '',
   };
 
-  handleSubmit = async (evt) => {
-    evt.preventDefault();
-
-    const reqUrl = `URLL`;
+  handleSubmit = async () => {
+//    evt.preventDefault();
+//    console.debug('trying to connect')
+    const reqUrl = `http://61a88a7c.ngrok.io/user/login`;
     try {
       const response = await fetch(reqUrl, {
         method: 'POST',
@@ -28,13 +28,16 @@ export default class LoginScreen extends React.Component {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          email: evt.target.email.value,
-          password: evt.target.password.value,
+          email: this.state.email,
+          password: this.state.password,
         }),
       });
       if (response.status === 200) {
+        response.json().then(data => {
         this.setState({ errorMessage: '' });
-        this.props.navigation.navigate('Dashboard');
+//        console.log(data.city + ',' + data.state + ',' + data.country)
+        this.props.navigation.navigate('Dashboard', {name: data.firstname + ' ' + data.lastname, email: data.email, phone: data.phonenumber, city: data.city + ',' + data.state + ',' + data.country});
+        });
       } else if (response.status === 401) {
         this.setState({ errorMessage: 'Invalid Email and/or Password' });
       } else {
@@ -59,7 +62,7 @@ export default class LoginScreen extends React.Component {
           }}
           backgroundColor='#00BFFF'
         />
-        {/* <Text style={styles.logo}></Text> */}
+        <Text style={styles.logo}></Text>
         <View style={styles.inputView}>
           <TextInput
             style={styles.inputText}
@@ -79,7 +82,8 @@ export default class LoginScreen extends React.Component {
             onChangeText={(text) => this.setState({ password: text })}
           />
         </View>
-        {/* {errorMessage && (
+        <Text style={{ color: 'red' }}>{errorMessage}</Text>
+        {/*{errorMessage && (
           <Typography
             variant='caption'
             component='p'
@@ -87,10 +91,11 @@ export default class LoginScreen extends React.Component {
           >
             {errorMessage}
           </Typography>
-        )} */}
+        )}*/}
         <TouchableOpacity
           style={styles.loginBtn}
-          onPress={() => this.handleSubmit}
+          onPress={() => this.handleSubmit()}
+//            onPress={() => this.props.navigation.navigate('Dashboard')}
         >
           <Text style={styles.loginText}>LOGIN</Text>
         </TouchableOpacity>

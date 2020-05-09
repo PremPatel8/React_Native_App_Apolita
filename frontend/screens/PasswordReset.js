@@ -9,8 +9,40 @@ import { Header, Icon } from 'react-native-elements';
 import TextField from '../components/TextField';
 
 export default class PasswordReset extends Component {
+  state = {
+    email: '',
+    password: '',
+    errorMessage: '',
+  };
 
+  handleSubmit = async () => {
+    const response = await fetch(`http://61a88a7c.ngrok.io/user/reset`, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        email: this.state.email,
+        password: this.state.password,
+      }),
+    });
+    if (response.status === 200) {
+      this.setState({ errorMessage: '' });
+      this.props.navigation.navigate('PassResetSuccess')
+    } else if (response.status === 401) {
+      this.setState({ errorMessage: 'Please enter correct email id.' });
+    } else if (response.status === 402) {
+      this.setState({ errorMessage: 'Details Missing' });
+    } else {
+      this.setState({
+        errorMessage:
+          'There was some error while processing your request. If this continues please contact support. ',
+      });
+    }
+  };
   render() {
+    const { errorMessage } = this.state;
     return (
       <View style={styles.container}>
           <Header style={{ position:'absolute'}}
@@ -20,9 +52,11 @@ export default class PasswordReset extends Component {
           />
           <View style={styles.body}>
             <View style={styles.bodyContent}>
-              <Text style={styles.name}>Please provide your registered email id:</Text>
-              <TextField style={{  }} placeHolder=" Enter Email id..."/>
-              <TouchableOpacity style={styles.buttonContainer} onPress={() => this.props.navigation.navigate('PassResetSuccess')}>
+              <Text style={styles.name}>Please provide details to reset your password:</Text>
+              <TextField style={{  }} onChangeText={(text) => this.setState({ email: text })} placeHolder=" Enter Email id..."/>
+              <TextField style={{  }} onChangeText={(text) => this.setState({ password: text })} placeHolder=" Enter New Password..."/>
+              <Text style={{ color: 'red' }}>{errorMessage}</Text>
+              <TouchableOpacity style={styles.buttonContainer} onPress={() => this.handleSubmit()}>
                 <Text>Tap to Reset</Text>  
               </TouchableOpacity>              
             </View>
