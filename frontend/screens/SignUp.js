@@ -8,24 +8,34 @@ import {
   KeyboardAvoidingView,
 } from 'react-native';
 import SelectPicker from 'react-native-form-select-picker';
-import { Header, Divider } from 'react-native-elements';
+import { Header, Icon } from 'react-native-elements';
 import Typography from '@material-ui/core/Typography';
 import { ScrollView } from 'react-native-gesture-handler';
 
 export default class SignUp extends React.Component {
   state = {
+    firstname: '',
+    lastname: '',
+    gender: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+    mobileno: '',
+    city: '',
+    state: '',
+    country: '',
     data: {},
     errorMessage: '',
   };
 
   handleChange = (event) => {
-    const { data } = this.state;
-    this.setState({
-      data: {
-        ...data,
-        [event.target.name]: event.target.value,
-      },
-    });
+//    const { data } = this.state;
+//    this.setState({
+//      data: {
+//        ...data,
+//        [event.target.name]: event.target.value,
+//      },
+//    });
     const newState = this.state;
     if (
       newState.data.password &&
@@ -38,23 +48,35 @@ export default class SignUp extends React.Component {
     }
   };
 
-  handleSubmit = async (evt) => {
-    evt.preventDefault();
-    const { data } = this.state;
-
-    const response = await fetch(`URLL`, {
+  handleSubmit = async () => {
+//    evt.preventDefault();
+//    const { data } = this.state;
+//    console.log(this.state.mobileno)
+    const response = await fetch(`http://61a88a7c.ngrok.io/user/signup`, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify({
+        firstname: this.state.firstname,
+        lastname: this.state.lastname,
+        gender: this.state.gender,
+        email: this.state.email,
+        password: this.state.password,
+        phonenumber: this.state.mobileno,
+        city: this.state.city,
+        state: this.state.state,
+        country: this.state.country,
+      }),
     });
     if (response.status === 200) {
       this.setState({ errorMessage: '' });
       this.props.navigation.navigate('RegisterConfirm');
-    } else if (response.status === 401) {
+    } else if (response.status === 409) {
       this.setState({ errorMessage: 'User already exists.' });
+    } else if (response.status === 401) {
+      this.setState({ errorMessage: 'Missing Details, Please provide all the details.' });
     } else {
       this.setState({
         errorMessage:
@@ -66,6 +88,7 @@ export default class SignUp extends React.Component {
   render() {
     const { data, errorMessage } = this.state;
     return (
+      <ScrollView>
       <KeyboardAvoidingView style={styles.container}>
         <Header
           style={{ position: 'absolute' }}
@@ -75,10 +98,10 @@ export default class SignUp extends React.Component {
             text: 'SignUp with Apolita',
             style: { color: '#fff', fontSize: 25 },
           }}
+          leftComponent={< Icon name='arrow-back' color='#fff' onPress={() => this.props.navigation.navigate('Home')}/>}
           backgroundColor='#00BFFF'
         />
-        <ScrollView style={{width:"80%"}}>
-          <Text style={{ marginBottom: 40 }}></Text>
+          <Text style={{ marginBottom: 10 }}></Text>
           <View style={styles.inputView}>
             <TextInput
               style={styles.inputText}
@@ -87,7 +110,8 @@ export default class SignUp extends React.Component {
               required
               name='firstname'
               value={data.firstname}
-              onChangeText={this.handleChange}
+              onChangeText={(text) => this.setState({ firstname: text })}
+//              onChangeText={this.handleChange}
             />
           </View>
           <View style={styles.inputView}>
@@ -98,7 +122,8 @@ export default class SignUp extends React.Component {
               required
               name='lastname'
               value={data.lastname}
-              onChangeText={this.handleChange}
+              onChangeText={(text) => this.setState({ lastname: text })}
+//              onChangeText={this.handleChange}
             />
           </View>
           <View
@@ -115,12 +140,13 @@ export default class SignUp extends React.Component {
                 borderBottomColor: '#2471A3',
                 width: 150,
               }}
-              onValueChange={this.handleChange}
+//              onValueChange={this.handleChange}
+              onValueChange={(value) => {this.setState({gender: value})}}
               name='gender'
-              value={data.gender || ''}
+//              value={data.gender || ''}
               placeholder='Select Gender'
               placeholderTextColor='#003f5c'
-              selected={this.state.data.gender}
+              selected={this.state.gender}
             >
               <SelectPicker.Item label='Male' value='male' />
               <SelectPicker.Item label='Female' value='female' />
@@ -134,7 +160,8 @@ export default class SignUp extends React.Component {
               required
               name='email'
               value={data.email}
-              onChangeText={this.handleChange}
+//              onChangeText={this.handleChange}
+              onChangeText={(text) => this.setState({ email: text })}
             />
           </View>
           <View style={styles.inputView}>
@@ -146,7 +173,8 @@ export default class SignUp extends React.Component {
               required
               name='password'
               value={data.password}
-              onChangeText={this.handleChange}
+              onChangeText={(text) => this.setState({ password: text })}
+//              onChangeText={this.handleChange}
             />
           </View>
           <View style={styles.inputView}>
@@ -158,7 +186,8 @@ export default class SignUp extends React.Component {
               required
               name='confirmPassword'
               value={data.confirmPassword}
-              onChangeText={this.handleChange}
+              onChangeText={(text) => this.setState({ confirmPassword: text })}
+//             onChangeText={this.handleChange}
             />
           </View>
           <View style={styles.inputView}>
@@ -169,21 +198,48 @@ export default class SignUp extends React.Component {
               keyboardType='number-pad'
               name='mobileno'
               value={data.mobileno}
-              onChangeText={this.handleChange}
+              onChangeText={(text) => this.setState({ mobileno: text })}
+//              onChangeText={this.handleChange}
             />
           </View>
           <View style={styles.inputView}>
             <TextInput
               style={styles.inputText}
-              placeholder='City, Country...'
+              placeholder='City...'
               placeholderTextColor='#003f5c'
               required
-              name='location'
-              value={data.location}
-              onChangeText={this.handleChange}
+              name='City'
+              value={data.city}
+              onChangeText={(text) => this.setState({ city: text })}
+//              onChangeText={this.handleChange}
             />
           </View>
-          {errorMessage && (
+          <View style={styles.inputView}>
+            <TextInput
+              style={styles.inputText}
+              placeholder='State...'
+              placeholderTextColor='#003f5c'
+              required
+              name='State'
+              value={data.state}
+              onChangeText={(text) => this.setState({ state: text })}
+//              onChangeText={this.handleChange}
+            />
+          </View>
+          <View style={styles.inputView}>
+            <TextInput
+              style={styles.inputText}
+              placeholder='Country...'
+              placeholderTextColor='#003f5c'
+              required
+              name='Country'
+              value={data.country}
+              onChangeText={(text) => this.setState({ country: text })}
+//              onChangeText={this.handleChange}
+            />
+          </View>
+          <Text style={{ color: 'red' }}>{errorMessage}</Text>
+          {/*{errorMessage && (
             <Typography
               variant='caption'
               component='p'
@@ -191,15 +247,15 @@ export default class SignUp extends React.Component {
             >
               {errorMessage}
             </Typography>
-          )}
-        </ScrollView>
+          )}*/}
         <TouchableOpacity
           style={styles.signupBtn}
-          onPress={() => this.handleSubmit}
+          onPress={() => this.handleSubmit()}
         >
           <Text style={styles.loginText}>Register with Apolita</Text>
         </TouchableOpacity>
       </KeyboardAvoidingView>
+      </ScrollView>
     );
   }
 }
@@ -209,11 +265,11 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     alignItems:"center",
-    justifyContent:'center',
+    //justifyContent:'center',
     //alignItems:'stretch',
   },
   inputView:{
-    width:'100%',
+    width:'80%',
     backgroundColor: '#fff',
     height: 50,
     marginBottom: 30,
@@ -222,7 +278,7 @@ const styles = StyleSheet.create({
     padding:1,
   },
   inputText:{
-    width:'80%',
+    height: 50,
     fontSize: 15,
     color: '#003f5c',
   },
@@ -237,7 +293,7 @@ const styles = StyleSheet.create({
     height: 50,
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 40,
+    marginTop: 10,
     marginBottom: 10,
   },
   loginText: {
