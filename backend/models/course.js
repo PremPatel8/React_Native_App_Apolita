@@ -1,11 +1,17 @@
 const db = require("../persistence/db_conn");
 const logger = require('../logger/logger');
 
+// States of courses in the database
+// At the time of course-creation, 'active' field is set to 1
+const courseStateInactive = 0;
+const courseStateActive = 1;
+
 // constructor for Course schema
 const Course = function(course) {
-    this.name = course.name;
+    this.title = course.name;
     this.description = course.description;
     this.image = course.image;
+    this.isActive = courseStateActive;
 };
 
 // @parameters:
