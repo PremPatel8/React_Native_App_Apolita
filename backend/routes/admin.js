@@ -32,9 +32,7 @@ router.post("/addcourse", async (req, res) => {
                 res.status(500).json({
                     message: err.message || "encountered error while creating the course."
                 });
-            }
-
-            return res.status(200).json(data);
+            } else return res.status(200).json(data);
         });
     } catch (err) {
         errMsg = "encountered error while creating the course: " + err;
@@ -68,9 +66,7 @@ router.post("/addannouncement", async (req, res) => {
                 res.status(500).json({
                     message: err.message || "encountered error while creating the announcement."
                 });
-            }
-
-            return res.status(200).json(data);
+            } else return res.status(200).json(data);
         });
     } catch (err) {
         errMsg = "encountered error while creating the announcement: " + err;
