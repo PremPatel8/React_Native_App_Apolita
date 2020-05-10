@@ -34,7 +34,7 @@ Course.create = (newCourse, result) => {
 // courseID: UniqueID of the course under consideration 
 // result: callback function to call with the result of this function at the end
 Course.findByCourseID = (courseID, result) => {
-    db.query(`SELECT * FROM courses WHERE email = '${courseID}'`, (err, res) => {
+    db.query(`SELECT * FROM courses WHERE id = '${courseID}'`, (err, res) => {
         if (err) {
             result(err, null);
             return;
