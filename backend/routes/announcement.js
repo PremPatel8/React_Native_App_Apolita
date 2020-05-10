@@ -12,13 +12,9 @@ router.get("/fetchall", async (req, res) => {
                 errMsg = `encountered error while fetching announcements`;
                 logger.error(errMsg);
                 return res.status(500).json({ error: errMsg });
-            }
-
-            if (data) {
+            } else if (data) {
                 return res.status(200).json(data);  
-            }
-
-            return res.status(200).json([]);
+            } else return res.status(200).json([]);
         });
     } catch (err) {
         errMsg = "encountered error while fetching the announcements: " + err;
