@@ -2,6 +2,8 @@ const express = require('express');
 const logger = require('../logger/logger');
 const Course = require('../models/course');
 const router = express.Router();
+const fs = require("fs")
+var path = require('path');
 
 router.get("/:courseid", async (req, res) => {
     try {
