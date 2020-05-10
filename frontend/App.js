@@ -15,6 +15,7 @@ import PasswordReset from "./screens/PasswordReset";
 import PassResetSuccess from "./screens/PassResetSuccess";
 import PersonalityTest from "./screens/PersonalityTest";
 import DiscussionModule from "./screens/DiscussionModule";
+import Playcourse from "./screens/Playcourse";
 
 const CustomDrawerContentComponent = (props) => (
   <SafeAreaView style={{ flex:1 }}>
@@ -53,7 +54,7 @@ const AppDrawerDashboard = createDrawerNavigator({
       ),
     },
   },
-  Discussion: {
+  Announcements: {
     screen: DiscussionModule,
     navigationOptions: {
       drawerIcon: (
@@ -119,6 +120,9 @@ const AppNavigator = createStackNavigator({
   },
   DiscussionModule: {
     screen: DiscussionModule
+  },
+  Playcourse: {
+    screen: Playcourse
   },
 //  Drawer: {
 //    screen: AppDrawerDashboard
