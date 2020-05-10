@@ -72,7 +72,6 @@ User.findByEmailPassword = (email1, password1, result) => {
 
 User.resetByEmail = (email2, password2, result) => {
     db.query(`UPDATE users SET password = '${password2}' WHERE email = '${email2}'`, (err, res) => {
-//        console.log(res.affectedRows)
         if (err) {
             result(err, null);
             return;
