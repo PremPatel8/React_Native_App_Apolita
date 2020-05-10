@@ -29,7 +29,7 @@ router.get("/fetchall", async (req, res) => {
 });
 
 // Returns a list of paths for all the files associated with a particular courseID
-router.get("/api/course/:id", async(req, res) => {
+router.get("/coursematerial/:id", async(req, res) => {
     const courseID = req.params.id
     
     //change public to the name of the directory where all the assessts are stored on your system
