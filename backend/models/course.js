@@ -8,10 +8,10 @@ const courseStateActive = 1;
 
 // constructor for Course schema
 const Course = function(course) {
-    this.title = course.name;
+    this.title = course.title;
     this.description = course.description;
     this.image = course.image;
-    this.isActive = courseStateActive;
+    this.is_active = courseStateActive;
 };
 
 // @parameters:
