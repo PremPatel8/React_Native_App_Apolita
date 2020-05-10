@@ -6,7 +6,6 @@ import {
   TouchableOpacity
 } from 'react-native';
 import { Header, Icon } from 'react-native-elements';
-import TextField from '../components/TextField';
 
 export default class RegisterConfirm extends Component {
 
@@ -21,10 +20,10 @@ export default class RegisterConfirm extends Component {
           <View style={styles.body}>
             <View style={styles.bodyContent}>
               <Text style={styles.name}>Thanks for joining Apolita!!!</Text>
-              <Text style={styles.description}>A Verification code has been sent to your email.</Text>
-              <TextField placeHolder=" Please enter verification code"/>
-              <TouchableOpacity style={styles.buttonContainer}>
-                <Text>Verify your account</Text>  
+{/*              <Text style={styles.description}>A Verification code has been sent to your email.</Text>
+              <TextField placeHolder=" Please enter verification code"/> */}
+              <TouchableOpacity style={styles.buttonContainer} onPress={() => this.props.navigation.navigate('Home')}>
+                <Text>Let's Get Started</Text>  
               </TouchableOpacity>              
             </View>
            </View>

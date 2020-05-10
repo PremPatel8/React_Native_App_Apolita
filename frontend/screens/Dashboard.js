@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, ScrollView, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, Image, ScrollView, View, ActivityIndicator, TouchableOpacity } from 'react-native';
 import { Header, Icon, Card, Button } from 'react-native-elements';
 import { DrawerActions } from 'react-navigation-drawer';
 import { FontAwesome } from '@expo/vector-icons';
@@ -14,54 +14,25 @@ export default class Dashboard extends React.Component {
       phone: this.props.navigation.state.params.phone,
       city: this.props.navigation.state.params.city,
       errorMessage: '',
+      data: [],
+      isLoading: true,
     };
   }
-  componentDidMount = async () => {
-    const response = await fetch(`http://61a88a7c.ngrok.io/course/fetchall`, {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-      }),
-    });
-    console.log('inside mounter')
-    if (response.status === 200) {
-      response.json().then(data => {
-      this.setState({ errorMessage: '' });
-      const result = Object.keys(data).map(key => ({[key]: data[key]}));
-      console.log(result)
-      {/*data.forEach(element => {
-        <Card
-            title={element.name}
-            image={require('../assets/icon.png')}>
-            <Text style={{marginBottom: 10}}>
-                    {element.description}
-            </Text>
-            <Button
-                icon={<Icon name='code' color='#ffffff' />}
-                buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 10}}
-                title='Launch Course' />
-            <TouchableOpacity>
-                <Text style={{ fontSize: 15, color: 'blue' }}>Take Assesment</Text>
-            </TouchableOpacity>
-        </Card>
-        });*/}
-      });
-//      this.props.navigation.navigate('PassResetSuccess')
-    } else if (response.status === 401) {
-      this.setState({ errorMessage: 'Please enter correct email id.' });
-    } else if (response.status === 402) {
-      this.setState({ errorMessage: 'Details Missing' });
-    } else {
+  componentDidMount = () => {
+    fetch(`http://9466b7f3.ngrok.io/course/fetchall`, {
+      method: 'GET'
+    })
+    .then((response) => response.json())
+    .then(responseJson => {
       this.setState({
-        errorMessage:
-          'There was some error while processing your request. If this continues please contact support. ',
-      });
-    }
-  };
-  render(){
+        data: responseJson
+      })
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+  } 
+  render() {
     return (
       <View style={styles.container}>
           <Header style={{ position:'absolute'}}
@@ -73,49 +44,27 @@ export default class Dashboard extends React.Component {
             backgroundColor='#00BFFF'
           />
         <ScrollView>
-        {/*  {this.handleSubmit()}
-        <Card
-            title='Classroom Course 1'
-            image={require('../assets/icon.png')}>
-            <Text style={{marginBottom: 10}}>
-                    Course Description will be added here.
-            </Text>
-            <Button
-                icon={<Icon name='code' color='#ffffff' />}
-                buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 10}}
-                title='Launch Course' />
-            <TouchableOpacity>
-                <Text style={{ fontSize: 15, color: 'blue' }}>Take Assesment</Text>
-            </TouchableOpacity>
-        </Card>
-        <Card
-            title='Classroom Course 1'
-            image={require('../assets/icon.png')}>
-            <Text style={{marginBottom: 10}}>
-                    Course Description will be added here.
-            </Text>
-            <Button
-                icon={<Icon name='code' color='#ffffff' />}
-                buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 10}}
-                title='Launch Course' />
-            <TouchableOpacity>
-                <Text style={{ fontSize: 15, color: 'blue' }}>Take Assesment</Text>
-            </TouchableOpacity>
-        </Card>
-        <Card
-            title='Classroom Course 1'
-            image={require('../assets/icon.png')}>
-            <Text style={{marginBottom: 10}}>
-                    Course Description will be added here.
-            </Text>
-            <Button
-                icon={<Icon name='code' color='#ffffff' />}
-                buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 10}}
-                title='Launch Course' />
-            <TouchableOpacity>
-                <Text style={{ fontSize: 15, color: 'blue' }}>Take Assesment</Text>
-            </TouchableOpacity>
-        </Card>*/}
+          {this.state.data.map((coursedetail, i) => {
+//            const coursedetail = this.state.data[element]
+            return (
+              <Card
+                title={coursedetail.title}
+                key = {i}
+                image={require('../assets/course1.jpeg')} >
+                <Text style={{marginBottom: 10}}>
+                    {coursedetail.description}
+                </Text>
+                <Button
+                  icon={<Icon name='code' color='#ffffff' />}
+                  buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 10}}
+                  title='Launch Course'
+                  onPress={() => this.props.navigation.navigate('Playcourse', {course: coursedetail.title, detail: coursedetail.description})} />
+                {/*<TouchableOpacity>
+                  <Text style={{ fontSize: 15, color: 'blue' }}>Take Assesment</Text>
+                </TouchableOpacity>*/}
+              </Card>
+            );
+          })}
         </ScrollView>
     </View>
     );
