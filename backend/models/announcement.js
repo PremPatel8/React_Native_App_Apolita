@@ -3,7 +3,7 @@ const logger = require('../logger/logger');
 
 // constructor for Announcment schema
 const Announcement = function(course) {
-    this.title = course.name;
+    this.title = course.title;
     this.description = course.description;
 };
 
