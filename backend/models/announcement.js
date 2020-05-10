@@ -1,40 +1,33 @@
 const db = require("../persistence/db_conn");
 const logger = require('../logger/logger');
 
-// States of courses in the database
-// At the time of course-creation, 'active' field is set to 1
-const courseStateInactive = 0;
-const courseStateActive = 1;
-
-// constructor for Course schema
-const Course = function(course) {
+// constructor for Announcment schema
+const Announcement = function(course) {
     this.title = course.title;
     this.description = course.description;
-    this.image = course.image;
-    this.is_active = courseStateActive;
 };
 
 // @parameters:
 // newCourse: new course object as per above course model 
 // result: callback function to call with the result of this function at the end
-Course.create = (newCourse, result) => {
-    db.query("INSERT INTO courses SET ?", newCourse, (err, res) => {
+Announcement.create = (newAnnouncement, result) => {
+    db.query("INSERT INTO announcements SET ?", newAnnouncement, (err, res) => {
         if (err) {
-            logger.error("failed to create new course, err: ", err);
+            logger.error("failed to create new announcement, err: ", err);
             result(err, null);
             return;
         }
     
-        logger.info("successfully created new course");
-        result(null, { id: res.insertId, ...newCourse });
+        logger.info("successfully created new announcement");
+        result(null, { id: res.insertId, ...newAnnouncement });
     });
 };
 
 // @parameters:
-// courseID: UniqueID of the course under consideration 
+// announcementID: UniqueID of the announcement under consideration 
 // result: callback function to call with the result of this function at the end
-Course.findByCourseID = (courseID, result) => {
-    db.query(`SELECT * FROM courses WHERE id = '${courseID}'`, (err, res) => {
+Announcement.findByCourseID = (announcementID, result) => {
+    db.query(`SELECT * FROM announcements WHERE id = '${announcementID}'`, (err, res) => {
         if (err) {
             result(err, null);
             return;
@@ -45,15 +38,15 @@ Course.findByCourseID = (courseID, result) => {
             return;
         }
     
-        // couldn't find course with the given courseID
+        // couldn't find course with the given announcementID
         result({ kind: "not_found" }, null);
     });
 };
 
 // @parameters: 
 // result: callback function to call with the result of this function at the end
-Course.fetchAll = (result) => {
-    db.query(`SELECT * FROM courses`, (err, res) => {
+Announcement.fetchAll = (result) => {
+    db.query(`SELECT * FROM announcements`, (err, res) => {
         if (err) {
             result(err, null);
             return;
@@ -69,4 +62,4 @@ Course.fetchAll = (result) => {
     });
 };
 
-module.exports = Course;
+module.exports = Announcement;
