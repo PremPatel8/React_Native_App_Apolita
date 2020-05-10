@@ -12,6 +12,7 @@ class TextField extends React.Component {
                 placeholderTextColor="#808B96"
                 keyboardType={textContentType}
                 onChangeText={onChangeText}
+                required
                 value={value}
                 ref={ref}
                 />

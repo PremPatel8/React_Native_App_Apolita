@@ -1,13 +1,13 @@
 import React from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import PropTypes from 'prop-types';
 
-export default function DetailListItem({ icon, title, subtitle }) {
+export default function DetailListItem({ icon, title, subtitle, onPress }) {
   return (
     <View style={styles.borderContainer}>
       <View style={styles.wrapper}>
-        <View style={styles.container}>
+        <TouchableOpacity style={styles.container} onPress={onPress}>
           {icon && (
             <Icon
               name={icon}
@@ -20,12 +20,11 @@ export default function DetailListItem({ icon, title, subtitle }) {
           )}
           <View style={styles.contentContainer}>
             <Text style={[styles.title]}>{title}</Text>
-
             {subtitle && (
               <Text style={styles.subtitle}>{subtitle}</Text>
             )}
           </View>
-        </View>
+        </TouchableOpacity>
       </View>
     </View>
   );
