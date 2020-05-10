@@ -13,7 +13,7 @@ router.get("/:courseid", async (req, res) => {
                     errMsg = `no course found with courseid: ${courseid}`;
                     logger.error(errMsg);
                     return res.status(404).json({ error: errMsg });
-    ]           } else {
+               } else {
                     errMsg = `encountered error while fetching course with courseid: ${courseid}`;
                     logger.error(errMsg);
                     return res.status(500).json({ error: errMsg });

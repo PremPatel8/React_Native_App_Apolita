@@ -114,7 +114,7 @@ router.post("/reset", async (req, res) => {
     
     try {
         User.resetByEmail(req.body.email, req.body.password, (err, data) => {
-            if ( err || err.kind == "not_found") {
+            if ( err && err.kind == "not_found") {
                 errMsg = `user not found with email - ${req.body.email}`;
                 logger.error(errMsg);
                 return res.status(401).json({ error: errMsg });
