@@ -14,12 +14,16 @@ export default class LoginScreen extends React.Component {
     email: '',
     password: '',
     errorMessage: '',
+    name: '',
+    email1: '',
+    phone: '',
+    city: '',
   };
 
   handleSubmit = async () => {
 //    evt.preventDefault();
 //    console.debug('trying to connect')
-    const reqUrl = `http://61a88a7c.ngrok.io/user/login`;
+    const reqUrl = `http://9466b7f3.ngrok.io/student/login`;
     try {
       const response = await fetch(reqUrl, {
         method: 'POST',
@@ -34,9 +38,14 @@ export default class LoginScreen extends React.Component {
       });
       if (response.status === 200) {
         response.json().then(data => {
-        this.setState({ errorMessage: '' });
+        this.setState({ errorMessage: '',
+          name: data.firstname + ' ' + data.lastname,
+          email1 : data.email,
+          phone: data.phonenumber,
+          city: data.city + ',' + data.state + ',' + data.country,
+          });
 //        console.log(data.city + ',' + data.state + ',' + data.country)
-        this.props.navigation.navigate('Dashboard', {name: data.firstname + ' ' + data.lastname, email: data.email, phone: data.phonenumber, city: data.city + ',' + data.state + ',' + data.country});
+        this.props.navigation.navigate('Dashboard', {name: this.state.name, email: this.state.email1, phone: this.state.phone, city: this.state.city});
         });
       } else if (response.status === 401) {
         this.setState({ errorMessage: 'Invalid Email and/or Password' });

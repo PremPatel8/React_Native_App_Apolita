@@ -49,10 +49,7 @@ export default class SignUp extends React.Component {
   };
 
   handleSubmit = async () => {
-//    evt.preventDefault();
-//    const { data } = this.state;
-//    console.log(this.state.mobileno)
-    const response = await fetch(`http://61a88a7c.ngrok.io/user/signup`, {
+    const response = await fetch(`http://9466b7f3.ngrok.io/student/signup`, {
       method: 'POST',
       headers: {
         Accept: 'application/json',

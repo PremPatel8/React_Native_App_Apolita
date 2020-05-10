@@ -3,6 +3,7 @@ import {
   StyleSheet,
   Text,
   View,
+  ScrollView,
   TouchableOpacity
 } from 'react-native';
 import { Header, Icon } from 'react-native-elements';
@@ -10,15 +11,36 @@ import DetailListItem from '../components/DetailListItem';
 import Overlay from 'react-native-modal-overlay';
 
 export default class DiscussionModule extends Component {
-
-  state = {
-    modalVisible: false,
+  constructor(props) {
+    super(props);
+    this.state = {
+      modalVisible: false,
+      annDesc: '',
+      data: [],
+      desc: {},
+    }
   }
   showOverlay() {
     this.setState({modalVisible: true})
+//      this.state.modalVisible=true
   }
   hideOverlay() {
-    this.setState({modalVisible: false})
+    this.setState({modalVisible: false,
+      annDesc: ''})
+  }
+  componentDidMount = () => {
+    fetch(`http://9466b7f3.ngrok.io/announcement/fetchall`, {
+      method: 'GET'
+    })
+    .then((response) => response.json())
+    .then(responseJson => {
+      this.setState({
+        data: responseJson
+      })
+    })
+    .catch((error) => {
+      console.error(error);
+    });
   }
   render() {
     return (
@@ -28,33 +50,24 @@ export default class DiscussionModule extends Component {
             centerComponent={{ text: 'Announcements', style: { color: '#fff', fontSize: 22  } }}
             backgroundColor='#00BFFF'
           />
-          <View style={styles.body}>
-            <View style={styles.bodyContent}>
-              <DetailListItem
-                  icon="chat"
-                  title="Announcement 1"
-                  subtitle="Tap to check announcement"
-                  onPress={this.showOverlay.bind(this)}/>
-              <DetailListItem
-                  icon="chat"
-                  title="Announcement 2"
-                  subtitle="Tap to check announcement"
-                  onPress={this.showOverlay.bind(this)}/>
-              <DetailListItem
-                  icon="chat"
-                  title="Announcement 3"
-                  subtitle="Tap to check announcement"
-                  onPress={this.showOverlay.bind(this)}/>
-              <DetailListItem
-                  icon="chat"
-                  title="Announcement 4"
-                  subtitle="Tap to check announcement"
-                  onPress={this.showOverlay.bind(this)}/>
-              <Overlay visible={this.state.modalVisible} closeOnTouchOutside onClose={this.hideOverlay.bind(this)} animationType="zoomIn">
-                <Text>Add the Announcement in this section</Text>
-              </Overlay>         
-            </View>
-           </View>
+          <ScrollView style={styles.body}>
+              {this.state.data.map((element, i) => {
+                this.state.desc[i] = element.description
+                return (
+                  <View style={styles.bodyContent} key={i}>
+                    <DetailListItem
+                    icon="chat"
+                    title={element.title}
+//                  subtitle="Tap to check announcement"
+                    subtitle={element.description}
+                    onPress={this.showOverlay.bind(this)}/>
+                    <Overlay visible={this.state.modalVisible} closeOnTouchOutside onClose={this.hideOverlay.bind(this)} animationType="zoomIn">
+                      <Text>{this.state.desc[i]}</Text>
+                    </Overlay>
+                  </View>
+                );
+              })} 
+           </ScrollView>
       </View>
     );
   }

@@ -10,6 +10,16 @@ import { Icon } from 'react-native-elements';
 import DetailListItem from '../components/DetailListItem';
 
 export default class UserProfile extends Component {
+  constructor(props) {
+    super(props)
+  
+    this.state = {
+      name: this.props.navigation.state.params.name,
+      email: this.props.navigation.state.params.email,
+      phone: this.props.navigation.state.params.phone,
+      city: this.props.navigation.state.params.city,
+    };
+  }
 
   render() {
     return (
@@ -18,26 +28,34 @@ export default class UserProfile extends Component {
               <TouchableOpacity style={{ paddingRight: 330, paddingTop: 50}} onPress={() => this.props.navigation.goBack(null)}>
                   <Icon name='arrow-back' color='#fff' size={30}/>
               </TouchableOpacity>
-              <Text style={styles.name}>User name</Text>
+              <Text style={styles.name}>{this.state.name}</Text>
           </View>
           <Image style={styles.avatar} source={require('../assets/userpp.png')}/>
             <View style={styles.bodyContent}>  
               <DetailListItem
                   icon="mail"
                   title="Email"
-                  subtitle="email@gmail.com"/>
+                  subtitle={this.state.email}
+//                  onPress
+              />
               <DetailListItem
                   icon="phone"
                   title="Phone"
-                  subtitle="+9999999999"/>
+                  subtitle={this.state.phone}
+//                  onPress
+              />
               <DetailListItem
                   icon="home"
                   title="Address"
-                  subtitle="Arlington, Texas, USA"/>
+                  subtitle={this.state.city}
+//                  onPress
+              />
               <DetailListItem
                   icon="face"
                   title="Courses Instructor"
-                  subtitle="Jennifer"/>
+                  subtitle="Jennifer"
+//                  onPress
+              />
             </View>
       </View>
     );
