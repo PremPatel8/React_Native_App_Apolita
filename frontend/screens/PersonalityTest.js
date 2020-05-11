@@ -4,6 +4,7 @@ import { Header, Icon } from 'react-native-elements';
 import quizQuestions from '../api/quizQuestions';
 import Quiz from '../components/Quiz';
 import Result from '../components/Result';
+import { Text } from 'react-native';
 
 export default class PersonalityTest extends Component {
   constructor(props) {
@@ -53,6 +54,7 @@ export default class PersonalityTest extends Component {
   }
 
   handleAnswerSelected(event) {
+    console.log('hello');
     this.setUserAnswer(event.currentTarget.value);
 
     if (this.state.questionId < quizQuestions.length) {
@@ -113,6 +115,7 @@ export default class PersonalityTest extends Component {
         question={this.state.question}
         questionTotal={quizQuestions.length}
         onAnswerSelected={this.handleAnswerSelected}
+        counter={this.state.counter}
       />
     );
   }
@@ -140,9 +143,7 @@ export default class PersonalityTest extends Component {
         />
         <View style={styles.body}>
           <View style={styles.bodyContent}>
-            <div>
-              {this.state.result ? this.renderResult() : this.renderQuiz()}
-            </div>
+            {this.state.result ? this.renderResult() : this.renderQuiz()}
           </View>
         </View>
       </View>

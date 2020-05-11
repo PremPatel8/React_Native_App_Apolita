@@ -3,6 +3,9 @@ import PropTypes from 'prop-types';
 import Question from '../components/Question';
 import QuestionCount from '../components/QuestionCount';
 import AnswerOption from '../components/AnswerOption';
+import QuestionCheckBox from '../components/QuestionCheckBox';
+import { View } from 'react-native';
+import { CheckBox } from 'react-native-elements';
 
 function Quiz(props) {
   function renderAnswerOptions(key) {
@@ -17,15 +20,12 @@ function Quiz(props) {
       />
     );
   }
-
   return (
-    <div className='quiz'>
+    <View>
       <QuestionCount counter={props.questionId} total={props.questionTotal} />
       <Question content={props.question} />
-      <ul className='answerOptions'>
-        {props.answerOptions.map(renderAnswerOptions)}
-      </ul>
-    </div>
+      <QuestionCheckBox content={props.answerOptions} />
+    </View>
   );
 }
 
