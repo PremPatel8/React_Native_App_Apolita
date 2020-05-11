@@ -75,7 +75,7 @@ router.post("/login", async (req, res) => {
         return res.status(400).json({ error: errMsg });
     }
 
-    if (!(req.body.email || req.body.password)) {
+    if (!(req.body.email && req.body.password)) {
         errMsg = "mandatory field missing field in request";
         logger.error(errMsg);
         return res.status(401).json({ error: errMsg });
@@ -89,6 +89,7 @@ router.post("/login", async (req, res) => {
                 return res.status(401).json({ error: errMsg });
             } else {
                 logger.info(`user successfully logged-in using email: ${req.body.email}`);
+//                console.log(data)
                 return res.status(200).json(data)
             }
         });
@@ -114,12 +115,13 @@ router.post("/reset", async (req, res) => {
     
     try {
         User.resetByEmail(req.body.email, req.body.password, (err, data) => {
-            if ( err || err.kind == "not_found") {
+            if ( err == "not_found") {
                 errMsg = `user not found with email - ${req.body.email}`;
                 logger.error(errMsg);
                 return res.status(401).json({ error: errMsg });
             } else {
                 logger.info(`Password reset successful using email: ${req.body.email}`);
+                console.log(data)
                 return res.status(200).json(data)
             }
         });

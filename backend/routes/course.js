@@ -5,7 +5,7 @@ const Course = require('../models/course');
 
 const router = express.Router();
 
-router.get("/:courseid", async (req, res) => {
+router.get("/courseid", async (req, res) => {
     try {
         Course.findByCourseID(courseid, (err, data) => {
             if ( err ) {
@@ -13,7 +13,7 @@ router.get("/:courseid", async (req, res) => {
                     errMsg = `no course found with courseid: ${courseid}`;
                     logger.error(errMsg);
                     return res.status(404).json({ error: errMsg });
-    ]           } else {
+               } else {
                     errMsg = `encountered error while fetching course with courseid: ${courseid}`;
                     logger.error(errMsg);
                     return res.status(500).json({ error: errMsg });
@@ -36,11 +36,13 @@ router.get("/fetchall", async (req, res) => {
                 errMsg = `encountered error while fetching courses`;
                 logger.error(errMsg);
                 return res.status(500).json({ error: errMsg });
-            } else if (data) {
-                return res.status(200).json(data);  
-            } else {
-                return res.status(200).json([]);
             }
+
+            if (data) {
+                return res.status(200).json(data);  
+            }
+
+            return res.status(200).json([]);
         });
     } catch (err) {
         errMsg = "encountered error while fetching the courses: " + err;

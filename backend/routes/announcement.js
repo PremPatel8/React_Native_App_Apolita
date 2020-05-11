@@ -5,7 +5,7 @@ const Announcemnt = require('../models/announcement');
 
 const router = express.Router();
 
-router.get("/:announcementid", async (req, res) => {
+router.get("/announcementid", async (req, res) => {
     try {
         Announcemnt.findByAnnouncementID(announcementid, (err, data) => {
             if ( err ) {
@@ -13,7 +13,7 @@ router.get("/:announcementid", async (req, res) => {
                     errMsg = `no announcement found with courseid: ${announcementid}`;
                     logger.error(errMsg);
                     return res.status(404).json({ error: errMsg });
-    ]           } else {
+                } else {
                     errMsg = `encountered error while fetching announcement with announcementid: ${announcementid}`;
                     logger.error(errMsg);
                     return res.status(500).json({ error: errMsg });
