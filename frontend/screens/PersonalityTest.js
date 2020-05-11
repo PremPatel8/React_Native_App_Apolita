@@ -4,33 +4,21 @@ import { Header, Icon } from 'react-native-elements';
 import quizQuestions from '../api/quizQuestions';
 import Quiz from '../components/Quiz';
 import Result from '../components/Result';
-import { Text } from 'react-native';
 
 export default class PersonalityTest extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
-      counter: 0,
+      counter: 1,
       questionId: 1,
-      question: '',
-      answerOptions: [],
+      questions: quizQuestions,
       answer: '',
       answersCount: {},
       result: '',
+      questionTotal: quizQuestions.length,
     };
 
     this.handleAnswerSelected = this.handleAnswerSelected.bind(this);
-  }
-
-  componentDidMount() {
-    const shuffledAnswerOptions = quizQuestions.map((question) =>
-      this.shuffleArray(question.answers)
-    );
-    this.setState({
-      question: quizQuestions[0].question,
-      answerOptions: shuffledAnswerOptions[0],
-    });
   }
 
   shuffleArray(array) {
@@ -54,7 +42,6 @@ export default class PersonalityTest extends Component {
   }
 
   handleAnswerSelected(event) {
-    console.log('hello');
     this.setUserAnswer(event.currentTarget.value);
 
     if (this.state.questionId < quizQuestions.length) {
@@ -72,19 +59,6 @@ export default class PersonalityTest extends Component {
       },
       answer: answer,
     }));
-  }
-
-  setNextQuestion() {
-    const counter = this.state.counter + 1;
-    const questionId = this.state.questionId + 1;
-
-    this.setState({
-      counter: counter,
-      questionId: questionId,
-      question: quizQuestions[counter].question,
-      answerOptions: quizQuestions[counter].answers,
-      answer: '',
-    });
   }
 
   getResults() {
@@ -110,7 +84,6 @@ export default class PersonalityTest extends Component {
     return (
       <Quiz
         answer={this.state.answer}
-        answerOptions={this.state.answerOptions}
         questionId={this.state.questionId}
         question={this.state.question}
         questionTotal={quizQuestions.length}
@@ -143,7 +116,7 @@ export default class PersonalityTest extends Component {
         />
         <View style={styles.body}>
           <View style={styles.bodyContent}>
-            {this.state.result ? this.renderResult() : this.renderQuiz()}
+            <Quiz content={this.state} />
           </View>
         </View>
       </View>
