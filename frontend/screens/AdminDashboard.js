@@ -1,10 +1,10 @@
 import React from 'react';
-import { StyleSheet, Text, Image, ScrollView, View, ActivityIndicator, TouchableOpacity } from 'react-native';
-import { Header, Icon, Card, Button } from 'react-native-elements';
-import { DrawerActions } from 'react-navigation-drawer';
+import { StyleSheet, Text, Image, ScrollView, View, TouchableOpacity } from 'react-native';
+import { Header } from 'react-native-elements';
 import { FontAwesome } from '@expo/vector-icons';
+import DetailListItem from '../components/DetailListItem';
 
-export default class Dashboard extends React.Component {
+export default class AdminDashboard extends React.Component {
   constructor(props) {
     super(props)
   
@@ -18,53 +18,41 @@ export default class Dashboard extends React.Component {
       isLoading: true,
     };
   }
-  componentDidMount = () => {
-    fetch(`http://72240015.ngrok.io/course/fetchall`, {
-      method: 'GET'
-    })
-    .then((response) => response.json())
-    .then(responseJson => {
-      this.setState({
-        data: responseJson
-      })
-    })
-    .catch((error) => {
-      console.error(error);
-    });
-  } 
   render() {
     return (
       <View style={styles.container}>
           <Header style={{ position:'absolute'}}
-            leftComponent={< Icon name='menu' color='#fff' onPress={() => this.props.navigation.dispatch(DrawerActions.openDrawer())}
-            />}
-            centerComponent={{ text: 'Courses Dashboard', style: { color: '#fff', fontSize: 20 } }}
+            centerComponent={{ text: 'Instructor Dashboard', style: { color: '#fff', fontSize: 20 } }}
             rightComponent={ <FontAwesome name='user-circle' color='#fff' size={21} onPress={() => this.props.navigation.navigate('UserProfile', {name: this.state.name, email: this.state.email, phone: this.state.phone, city: this.state.city})}
             />}
             backgroundColor='#00BFFF'
           />
         <ScrollView>
-          {this.state.data.map((coursedetail, i) => {
-//            const coursedetail = this.state.data[element]
-            return (
-              <Card
-                title={coursedetail.title}
-                key = {i}
-                image={require('../assets/course1.jpeg')} >
-                <Text style={{marginBottom: 10}}>
-                    {coursedetail.description}
-                </Text>
-                <Button
-                  icon={<Icon name='code' color='#ffffff' />}
-                  buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 10}}
-                  title='Launch Course'
-                  onPress={() => this.props.navigation.navigate('Playcourse', {course: coursedetail.title, detail: coursedetail.description})} />
-                {/*<TouchableOpacity>
-                  <Text style={{ fontSize: 15, color: 'blue' }}>Take Assesment</Text>
-                </TouchableOpacity>*/}
-              </Card>
-            );
-          })}
+        <View style={styles.bodyContent}>
+            <TouchableOpacity onPress={() => this.props.navigation.navigate('StudentsEnrolled')}>
+              <DetailListItem
+                  icon="account-circle"
+                  title="Students Enrolled"
+                  subtitle="Tap to check total students enrolled."
+              /></TouchableOpacity>
+              <TouchableOpacity>
+              <DetailListItem
+                  icon="airplay"
+                  title="Add course"
+                  subtitle="Tap to add new course."
+              /></TouchableOpacity>
+              <TouchableOpacity onPress={() => this.props.navigation.navigate('AddAnnouncement')}>
+              <DetailListItem
+                  icon="announcement"
+                  title="Add Announcement"
+                  subtitle="Tap to add new announcement"
+              /></TouchableOpacity>
+            </View>
+            <TouchableOpacity
+                style={styles.logoutBtn}
+                onPress={() => this.props.navigation.navigate('Home')}>
+                <Text style={styles.loginText}>Sign off</Text>
+            </TouchableOpacity>
         </ScrollView>
     </View>
     );
@@ -75,7 +63,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
 //    paddingTop: 10,
-    backgroundColor: '#B3B6B7',
+    backgroundColor: '#fff',
 //    alignItems: 'center',
  //   justifyContent: 'center',
   },
@@ -99,6 +87,10 @@ const styles = StyleSheet.create({
     justifyContent:"center",
     padding:20
   },
+  bodyContent: {
+    flex: 1,
+    backgroundColor: 'white'
+  },
   inputText:{
     height:50,
     color:"#003f5c"
@@ -107,14 +99,15 @@ const styles = StyleSheet.create({
     color:"white",
     fontSize:14
   },
-  loginBtn:{
+  logoutBtn:{
     width:"80%",
     backgroundColor:"#fb5b5a",
     borderRadius:25,
     height:50,
     alignItems:"center",
     justifyContent:"center",
-    marginTop:40,
+    marginLeft: 40,
+    marginTop:150,
     marginBottom:10
   },
   signupBtn:{

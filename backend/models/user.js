@@ -72,13 +72,32 @@ User.findByEmailPassword = (email1, password1, result) => {
 
 User.resetByEmail = (email2, password2, result) => {
     db.query(`UPDATE users SET password = '${password2}' WHERE email = '${email2}'`, (err, res) => {
-        if (err) {
+        if (res.affectedRows == 0) {
+            err = 'not_found'
             result(err, null);
             return;
         }
     
         if (res.affectedRows > 0) {
+            console.log('send')
             result(null, res[0]);
+            return;
+        }
+    
+        // couldn't find user with the given email
+        result({ kind: "not_found" }, null);
+    });
+};
+
+User.fetchAllStudents = (result) => {
+    db.query(`SELECT * FROM users where role_id = '2'`, (err, res) => {
+        if (err) {
+            result(err, null);
+            return;
+        }
+    
+        if (res.length) {
+            result(null, res);
             return;
         }
     

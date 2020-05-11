@@ -19,7 +19,7 @@ export default class PassResetSuccess extends Component {
           />
           <View style={styles.body}>
             <View style={styles.bodyContent}>
-              <Text style={styles.name}>An email has been sent with your login credentials.</Text>
+              <Text style={styles.name}>Your password has been reset successfully.</Text>
               <Text style={styles.name}>Please check and login again.</Text>
               <TouchableOpacity style={styles.buttonContainer} onPress={() => this.props.navigation.navigate('Home')}>
                 <Text>Tap to Login again</Text>  

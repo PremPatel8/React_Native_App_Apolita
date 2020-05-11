@@ -8,28 +8,18 @@ import {
 } from 'react-native';
 import { Header, Icon } from 'react-native-elements';
 import DetailListItem from '../components/DetailListItem';
-import Overlay from 'react-native-modal-overlay';
 
-export default class DiscussionModule extends Component {
+export default class StudentsEnrolled extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      modalVisible: false,
       annDesc: '',
       data: [],
     }
-    this.showOverlay = this.showOverlay.bind(this)
   }
-  showOverlay(key) {
-    console.log(key)
-    this.setState({modalVisible: true,
-      annDesc: key})
-  }
-  hideOverlay() {
-    this.setState({modalVisible: false})
-  }
+
   componentDidMount = () => {
-    fetch(`http://72240015.ngrok.io/announcement/fetchall`, {
+    fetch(`http://72240015.ngrok.io/admin/fetchall`, {
       method: 'GET'
     })
     .then((response) => response.json())
@@ -47,24 +37,21 @@ export default class DiscussionModule extends Component {
       <View style={styles.container}>
           <Header style={{ position:'absolute'}}
             leftComponent={< Icon name='arrow-back' color='#fff' onPress={() => this.props.navigation.goBack(null)}/>}
-            centerComponent={{ text: 'Announcements', style: { color: '#fff', fontSize: 22  } }}
+            centerComponent={{ text: 'Enrolled Students', style: { color: '#fff', fontSize: 22  } }}
             backgroundColor='#00BFFF'
           />
           <ScrollView style={styles.body}>
               {this.state.data.map((element, i) => {
                 return (
-                  <TouchableOpacity style={styles.bodyContent} key={i} onPress={() => this.showOverlay(element.description)}>
+                  <View style={styles.bodyContent} key={i}>
                     <DetailListItem
-                    icon="chat"
-                    title={element.title}
-                    subtitle='Tap to check the Announcement'
+                    icon="account-circle"
+                    title={element.firstname + ' ' + element.lastname}
+                    subtitle={element.email}
                     />
-                  </TouchableOpacity>
+                  </View>
                 );
-              })} 
-              <Overlay visible={this.state.modalVisible} closeOnTouchOutside onClose={this.hideOverlay.bind(this)} animationType="zoomIn">
-                <Text>{this.state.annDesc}</Text>
-              </Overlay>
+              })}
            </ScrollView>
       </View>
     );

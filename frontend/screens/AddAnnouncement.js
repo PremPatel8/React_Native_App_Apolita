@@ -8,30 +8,34 @@ import {
 import { Header, Icon } from 'react-native-elements';
 import TextField from '../components/TextField';
 
-export default class PasswordReset extends Component {
-  state = {
-    email: '',
-    password: '',
-    errorMessage: '',
-  };
-
+export default class AddAnnouncement extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            title: '',
+            description: '',
+            errorMessage: '',
+        };
+    }
   handleSubmit = async () => {
-    const response = await fetch(`http://72240015.ngrok.io/student/reset`, {
+    const response = await fetch(`http://72240015.ngrok.io/admin/addannouncement`, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        email: this.state.email,
-        password: this.state.password,
+        title: this.state.title,
+        description: this.state.description,
       }),
     });
     if (response.status === 200) {
-      this.setState({ errorMessage: '' });
-      this.props.navigation.navigate('PassResetSuccess')
+      this.setState({ errorMessage: ' Announcement sent to the students',
+                 title: '',
+                 description: ''});
+//      this.props.navigation.navigate('PassResetSuccess')
     } else if (response.status === 401) {
-      this.setState({ errorMessage: 'Please enter correct email id.' });
+      this.setState({ errorMessage: 'Please enter Announcement details to send.' });
     } else if (response.status === 402) {
       this.setState({ errorMessage: 'Details Missing' });
     } else {
@@ -46,18 +50,18 @@ export default class PasswordReset extends Component {
     return (
       <View style={styles.container}>
           <Header style={{ position:'absolute'}}
-            leftComponent={< Icon name='arrow-back' color='#fff' onPress={() => this.props.navigation.navigate('Home')}/>}
-            centerComponent={{ text: 'Reset your password', style: { color: '#fff', fontSize: 22  } }}
+            leftComponent={< Icon name='arrow-back' color='#fff' onPress={() => this.props.navigation.goBack(null)}/>}
+            centerComponent={{ text: 'Add an announcement', style: { color: '#fff', fontSize: 18  } }}
             backgroundColor='#00BFFF'
           />
           <View style={styles.body}>
             <View style={styles.bodyContent}>
-              <Text style={styles.name}>Please provide details to reset your password:</Text>
-              <TextField style={{  }} onChangeText={(text) => this.setState({ email: text })} placeHolder=" Enter Email id..."/>
-              <TextField style={{  }} onChangeText={(text) => this.setState({ password: text })} placeHolder=" Enter New Password..."/>
+              <Text style={styles.name}>Please provide Announcement details:</Text>
+              <TextField style={{  }} value={this.state.title} onChangeText={(title) => this.setState({title})} placeHolder=" Announcement Title"/>
+              <TextField style={{  }} value={this.state.description} onChangeText={(description) => this.setState({description})} placeHolder=" Announcement Description"/>
               <Text style={{ color: 'red' }}>{errorMessage}</Text>
               <TouchableOpacity style={styles.buttonContainer} onPress={() => this.handleSubmit()}>
-                <Text>Tap to Reset</Text>  
+                <Text>Tap to send announcement</Text>  
               </TouchableOpacity>              
             </View>
            </View>

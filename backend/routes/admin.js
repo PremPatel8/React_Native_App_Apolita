@@ -3,6 +3,7 @@ const express = require('express');
 const logger = require('../logger/logger');
 const Course = require('../models/course');
 const Announcement = require('../models/announcement');
+const User = require('../models/user');
 
 const router = express.Router();
 
@@ -13,7 +14,7 @@ router.post("/addcourse", async (req, res) => {
         return res.status(400).json({ error: errMsg });
     }
 
-    if (!(req.body.title || req.body.description || req.body.image)) {
+    if (!(req.body.name || req.body.description || req.body.image)) {
         errMsg = "mandatory field missing field in request";
         logger.error(errMsg);
         return res.status(401).json({ error: errMsg });
@@ -48,7 +49,7 @@ router.post("/addannouncement", async (req, res) => {
         return res.status(400).json({ error: errMsg });
     }
 
-    if (!(req.body.title || req.body.description)) {
+    if (!(req.body.title && req.body.description)) {
         errMsg = "mandatory field missing field in request";
         logger.error(errMsg);
         return res.status(401).json({ error: errMsg });
@@ -70,6 +71,28 @@ router.post("/addannouncement", async (req, res) => {
         });
     } catch (err) {
         errMsg = "encountered error while creating the announcement: " + err;
+        logger.error(errMsg);
+        return res.status(500).json({ error: errMsg });
+    }
+});
+
+router.get("/fetchall", async (req, res) => {
+    try {
+        User.fetchAllStudents((err, data) => {
+            if ( err ) {
+                errMsg = `encountered error while fetching courses`;
+                logger.error(errMsg);
+                return res.status(500).json({ error: errMsg });
+            }
+
+            if (data) {
+                return res.status(200).json(data);  
+            }
+
+            return res.status(200).json([]);
+        });
+    } catch (err) {
+        errMsg = "encountered error while fetching the courses: " + err;
         logger.error(errMsg);
         return res.status(500).json({ error: errMsg });
     }
