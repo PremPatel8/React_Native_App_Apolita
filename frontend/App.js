@@ -16,6 +16,9 @@ import PassResetSuccess from "./screens/PassResetSuccess";
 import PersonalityTest from "./screens/PersonalityTest";
 import DiscussionModule from "./screens/DiscussionModule";
 import Playcourse from "./screens/Playcourse";
+import AdminDashboard from "./screens/AdminDashboard";
+import StudentsEnrolled from "./screens/StudentsEnrolled";
+import AddAnnouncement from "./screens/AddAnnouncement";
 
 const CustomDrawerContentComponent = (props) => (
   <SafeAreaView style={{ flex:1 }}>
@@ -123,6 +126,15 @@ const AppNavigator = createStackNavigator({
   },
   Playcourse: {
     screen: Playcourse
+  },
+  AdminDashboard: {
+    screen: AdminDashboard
+  },
+  StudentsEnrolled: {
+    screen: StudentsEnrolled
+  },
+  AddAnnouncement: {
+    screen: AddAnnouncement
   },
 //  Drawer: {
 //    screen: AppDrawerDashboard
