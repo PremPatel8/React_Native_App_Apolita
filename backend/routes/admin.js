@@ -13,7 +13,7 @@ router.post("/addcourse", async (req, res) => {
         return res.status(400).json({ error: errMsg });
     }
 
-    if (!(req.body.name || req.body.description || req.body.image)) {
+    if (!(req.body.title || req.body.description || req.body.image)) {
         errMsg = "mandatory field missing field in request";
         logger.error(errMsg);
         return res.status(401).json({ error: errMsg });
@@ -48,7 +48,7 @@ router.post("/addannouncement", async (req, res) => {
         return res.status(400).json({ error: errMsg });
     }
 
-    if (!(req.body.name || req.body.description || req.body.image)) {
+    if (!(req.body.title || req.body.description)) {
         errMsg = "mandatory field missing field in request";
         logger.error(errMsg);
         return res.status(401).json({ error: errMsg });
