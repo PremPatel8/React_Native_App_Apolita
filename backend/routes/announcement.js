@@ -5,8 +5,10 @@ const Announcemnt = require('../models/announcement');
 
 const router = express.Router();
 
-router.get("/:announcementid", async (req, res) => {
+router.get("/announcementdetails/:announcementid", async (req, res) => {
     try {
+        const announcementid = req.params.announcementid;
+        
         Announcemnt.findByAnnouncementID(announcementid, (err, data) => {
             if ( err ) {
                 if (err.kind === "not_found") {

@@ -26,7 +26,7 @@ Announcement.create = (newAnnouncement, result) => {
 // @parameters:
 // announcementID: UniqueID of the announcement under consideration 
 // result: callback function to call with the result of this function at the end
-Announcement.findByCourseID = (announcementID, result) => {
+Announcement.findByAnnouncementID = (announcementID, result) => {
     db.query(`SELECT * FROM announcements WHERE id = '${announcementID}'`, (err, res) => {
         if (err) {
             result(err, null);
