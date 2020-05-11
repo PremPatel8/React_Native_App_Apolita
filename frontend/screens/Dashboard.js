@@ -19,7 +19,7 @@ export default class Dashboard extends React.Component {
     };
   }
   componentDidMount = () => {
-    fetch(`http://e04bbad6.ngrok.io/course/fetchall`, {
+    fetch(`http://72240015.ngrok.io/course/fetchall`, {
       method: 'GET'
     })
     .then((response) => response.json())

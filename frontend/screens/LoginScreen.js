@@ -24,7 +24,7 @@ export default class LoginScreen extends React.Component {
   handleSubmit = async () => {
 //    evt.preventDefault();
 //    console.debug('trying to connect')
-    const reqUrl = `http://e04bbad6.ngrok.io/student/login`;
+    const reqUrl = `http://72240015.ngrok.io/student/login`;
     try {
       const response = await fetch(reqUrl, {
         method: 'POST',

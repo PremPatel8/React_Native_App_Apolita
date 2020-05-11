@@ -19,7 +19,7 @@ export default class StudentsEnrolled extends Component {
   }
 
   componentDidMount = () => {
-    fetch(`http://e04bbad6.ngrok.io/admin/fetchall`, {
+    fetch(`http://72240015.ngrok.io/admin/fetchall`, {
       method: 'GET'
     })
     .then((response) => response.json())

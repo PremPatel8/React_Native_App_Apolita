@@ -29,7 +29,7 @@ export default class DiscussionModule extends Component {
     this.setState({modalVisible: false})
   }
   componentDidMount = () => {
-    fetch(`http://e04bbad6.ngrok.io/announcement/fetchall`, {
+    fetch(`http://72240015.ngrok.io/announcement/fetchall`, {
       method: 'GET'
     })
     .then((response) => response.json())
