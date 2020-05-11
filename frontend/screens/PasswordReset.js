@@ -16,7 +16,7 @@ export default class PasswordReset extends Component {
   };
 
   handleSubmit = async () => {
-    const response = await fetch(`http://9466b7f3.ngrok.io/student/reset`, {
+    const response = await fetch(`http://e04bbad6.ngrok.io/student/reset`, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
