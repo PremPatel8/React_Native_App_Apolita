@@ -7,6 +7,7 @@ import {
 } from 'react-native';
 import { Header, Icon } from 'react-native-elements';
 import TextField from '../components/TextField';
+import api from '../utils/api';
 
 export default class AddCourse extends Component {
     constructor(props) {
@@ -18,7 +19,8 @@ export default class AddCourse extends Component {
         };
     }
   handleSubmit = async () => {
-    const response = await fetch(`http://72240015.ngrok.io/admin/addcourse`, {
+    const reqUrl = api.url + '/admin/addcourse';
+    const response = await fetch(reqUrl, {
       method: 'POST',
       headers: {
         Accept: 'application/json',

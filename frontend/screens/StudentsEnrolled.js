@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import { Header, Icon } from 'react-native-elements';
 import DetailListItem from '../components/DetailListItem';
+import api from '../utils/api';
 
 export default class StudentsEnrolled extends Component {
   constructor(props) {
@@ -19,7 +20,8 @@ export default class StudentsEnrolled extends Component {
   }
 
   componentDidMount = () => {
-    fetch(`http://72240015.ngrok.io/admin/fetchall`, {
+    const reqUrl = api.url + '/admin/fetchall';
+    fetch(reqUrl, {
       method: 'GET'
     })
     .then((response) => response.json())

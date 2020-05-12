@@ -11,6 +11,7 @@ import SelectPicker from 'react-native-form-select-picker';
 import { Header, Icon } from 'react-native-elements';
 import Typography from '@material-ui/core/Typography';
 import { ScrollView } from 'react-native-gesture-handler';
+import api from '../utils/api';
 
 export default class SignUp extends React.Component {
   constructor(props) {
@@ -55,7 +56,8 @@ export default class SignUp extends React.Component {
     if (this.state.password != this.state.confirmPassword) {
       this.setState({ errorMessage: 'Password and confirm password mismatch.' });
     } else {
-      const response = await fetch(`http://72240015.ngrok.io/student/signup`, {
+      const reqUrl = api.url + '/student/signup';
+      const response = await fetch(reqUrl, {
       method: 'POST',
       headers: {
         Accept: 'application/json',

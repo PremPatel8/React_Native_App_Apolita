@@ -7,6 +7,7 @@ import {
 } from 'react-native';
 import { Header, Icon } from 'react-native-elements';
 import TextField from '../components/TextField';
+import api from '../utils/api';
 
 export default class PasswordReset extends Component {
   state = {
@@ -16,7 +17,8 @@ export default class PasswordReset extends Component {
   };
 
   handleSubmit = async () => {
-    const response = await fetch(`http://72240015.ngrok.io/student/reset`, {
+    const reqUrl = api.url + '/student/reset';
+    const response = await fetch(reqUrl, {
       method: 'POST',
       headers: {
         Accept: 'application/json',

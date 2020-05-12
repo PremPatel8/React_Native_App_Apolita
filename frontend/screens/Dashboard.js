@@ -3,6 +3,7 @@ import { StyleSheet, Text, Image, ScrollView, View, ActivityIndicator, Touchable
 import { Header, Icon, Card, Button } from 'react-native-elements';
 import { DrawerActions } from 'react-navigation-drawer';
 import { FontAwesome } from '@expo/vector-icons';
+import api from '../utils/api';
 
 export default class Dashboard extends React.Component {
   constructor(props) {
@@ -19,7 +20,8 @@ export default class Dashboard extends React.Component {
     };
   }
   componentDidMount = () => {
-    fetch(`http://72240015.ngrok.io/course/fetchall`, {
+    const reqUrl = api.url + '/course/fetchall';
+    fetch(reqUrl, {
       method: 'GET'
     })
     .then((response) => response.json())
@@ -82,14 +84,6 @@ const styles = StyleSheet.create({
   scrollView: {
     flex: 1,
   },
-  logo:{
-//    fontWeight:"bold",
-    fontSize:30,
-    color:"#2471A3",
-    marginBottom:40,
-    textAlignVertical: 'top',
-    justifyContent: 'flex-start',
-  },
   inputView:{
     width:"80%",
     backgroundColor:"white",
@@ -106,26 +100,6 @@ const styles = StyleSheet.create({
   forgot:{
     color:"white",
     fontSize:14
-  },
-  loginBtn:{
-    width:"80%",
-    backgroundColor:"#fb5b5a",
-    borderRadius:25,
-    height:50,
-    alignItems:"center",
-    justifyContent:"center",
-    marginTop:40,
-    marginBottom:10
-  },
-  signupBtn:{
-    width:"80%",
-    backgroundColor:"#fb5b5a",
-    borderRadius:25,
-    height:50,
-    alignItems:"center",
-    justifyContent:"center",
-    marginTop:40,
-    marginBottom:10
   },
   loginText:{
     color:"white"

@@ -9,6 +9,7 @@ import {
 import { Header, Icon } from 'react-native-elements';
 import DetailListItem from '../components/DetailListItem';
 import Overlay from 'react-native-modal-overlay';
+import api from '../utils/api';
 
 export default class DiscussionModule extends Component {
   constructor(props) {
@@ -21,7 +22,7 @@ export default class DiscussionModule extends Component {
     this.showOverlay = this.showOverlay.bind(this)
   }
   showOverlay(key) {
-    console.log(key)
+//    console.log(key)
     this.setState({modalVisible: true,
       annDesc: key})
   }
@@ -29,7 +30,8 @@ export default class DiscussionModule extends Component {
     this.setState({modalVisible: false})
   }
   componentDidMount = () => {
-    fetch(`http://72240015.ngrok.io/announcement/fetchall`, {
+    const reqUrl = api.url + '/announcement/fetchall';
+    fetch(reqUrl, {
       method: 'GET'
     })
     .then((response) => response.json())
