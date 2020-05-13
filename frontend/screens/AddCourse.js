@@ -9,7 +9,7 @@ import { Header, Icon } from 'react-native-elements';
 import TextField from '../components/TextField';
 import api from '../utils/api';
 
-export default class AddAnnouncement extends Component {
+export default class AddCourse extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -19,7 +19,7 @@ export default class AddAnnouncement extends Component {
         };
     }
   handleSubmit = async () => {
-    const reqUrl = api.url + '/admin/addannouncement';
+    const reqUrl = api.url + '/admin/addcourse';
     const response = await fetch(reqUrl, {
       method: 'POST',
       headers: {
@@ -32,12 +32,12 @@ export default class AddAnnouncement extends Component {
       }),
     });
     if (response.status === 200) {
-      this.setState({ errorMessage: ' Announcement sent to the students',
+      this.setState({ errorMessage: ' Course Added',
                  title: '',
                  description: ''});
 //      this.props.navigation.navigate('PassResetSuccess')
     } else if (response.status === 401) {
-      this.setState({ errorMessage: 'Please enter Announcement details to send.' });
+      this.setState({ errorMessage: 'Please enter course details to send.' });
     } else if (response.status === 402) {
       this.setState({ errorMessage: 'Details Missing' });
     } else {
@@ -53,17 +53,23 @@ export default class AddAnnouncement extends Component {
       <View style={styles.container}>
           <Header style={{ position:'absolute'}}
             leftComponent={< Icon name='arrow-back' color='#fff' onPress={() => this.props.navigation.goBack(null)}/>}
-            centerComponent={{ text: 'Add an announcement', style: { color: '#fff', fontSize: 18  } }}
+            centerComponent={{ text: 'Add new course', style: { color: '#fff', fontSize: 18  } }}
             backgroundColor='#00BFFF'
           />
           <View style={styles.body}>
             <View style={styles.bodyContent}>
-              <Text style={styles.name}>Please provide Announcement details:</Text>
-              <TextField style={{  }} value={this.state.title} onChangeText={(title) => this.setState({title})} placeHolder=" Announcement Title"/>
-              <TextField style={{  }} value={this.state.description} onChangeText={(description) => this.setState({description})} placeHolder=" Announcement Description"/>
+              <Text style={styles.name}>Please provide Course details:</Text>
+              <TextField style={{  }} value={this.state.title} onChangeText={(title) => this.setState({title})} placeHolder=" Course Title"/>
+              <TextField style={{  }} value={this.state.description} onChangeText={(description) => this.setState({description})} placeHolder=" Course Description"/>
               <Text style={{ color: 'red' }}>{errorMessage}</Text>
+              <TouchableOpacity style={styles.buttonContainerUp} 
+//              onPress={() => this.handleSubmit()}
+              >
+                <Icon name='videocam'/>
+                <Text>Upload a course video</Text>
+              </TouchableOpacity>
               <TouchableOpacity style={styles.buttonContainer} onPress={() => this.handleSubmit()}>
-                <Text>Tap to send announcement</Text>  
+                <Text>Tap to add course</Text>  
               </TouchableOpacity>              
             </View>
            </View>
@@ -97,5 +103,16 @@ const styles = StyleSheet.create({
     width:250,
     borderRadius:30,
     backgroundColor: "#00BFFF",
+  },
+  buttonContainerUp: {
+    marginTop:10,
+    height:65,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom:20,
+    width:190,
+    borderRadius:30,
+    backgroundColor: "grey",
   },
 });

@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import { Header, Divider } from 'react-native-elements';
-import Typography from '@material-ui/core/Typography';
+import api from '../utils/api';
 
 export default class LoginScreen extends React.Component {
   state = {
@@ -22,9 +22,10 @@ export default class LoginScreen extends React.Component {
   };
 
   handleSubmit = async () => {
+    const reqUrl = api.url + '/student/login';
 //    evt.preventDefault();
 //    console.debug('trying to connect')
-    const reqUrl = `http://72240015.ngrok.io/student/login`;
+//    const reqUrl = `http://72240015.ngrok.io/student/login`;
     try {
       const response = await fetch(reqUrl, {
         method: 'POST',
@@ -98,15 +99,6 @@ export default class LoginScreen extends React.Component {
           />
         </View>
         <Text style={{ color: 'red' }}>{errorMessage}</Text>
-        {/*{errorMessage && (
-          <Typography
-            variant='caption'
-            component='p'
-            style={{ color: 'red', padding: 10 }}
-          >
-            {errorMessage}
-          </Typography>
-        )}*/}
         <TouchableOpacity
           style={styles.loginBtn}
           onPress={() => this.handleSubmit()}

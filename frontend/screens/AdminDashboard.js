@@ -35,7 +35,7 @@ export default class AdminDashboard extends React.Component {
                   title="Students Enrolled"
                   subtitle="Tap to check total students enrolled."
               /></TouchableOpacity>
-              <TouchableOpacity>
+              <TouchableOpacity onPress={() => this.props.navigation.navigate('AddCourse')}>
               <DetailListItem
                   icon="airplay"
                   title="Add course"
@@ -70,23 +70,6 @@ const styles = StyleSheet.create({
   scrollView: {
     flex: 1,
   },
-  logo:{
-//    fontWeight:"bold",
-    fontSize:30,
-    color:"#2471A3",
-    marginBottom:40,
-    textAlignVertical: 'top',
-    justifyContent: 'flex-start',
-  },
-  inputView:{
-    width:"80%",
-    backgroundColor:"white",
-    borderRadius:25,
-    height:50,
-    marginBottom:20,
-    justifyContent:"center",
-    padding:20
-  },
   bodyContent: {
     flex: 1,
     backgroundColor: 'white'
@@ -108,16 +91,6 @@ const styles = StyleSheet.create({
     justifyContent:"center",
     marginLeft: 40,
     marginTop:150,
-    marginBottom:10
-  },
-  signupBtn:{
-    width:"80%",
-    backgroundColor:"#fb5b5a",
-    borderRadius:25,
-    height:50,
-    alignItems:"center",
-    justifyContent:"center",
-    marginTop:40,
     marginBottom:10
   },
   loginText:{

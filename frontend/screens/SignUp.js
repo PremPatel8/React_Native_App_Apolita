@@ -11,9 +11,12 @@ import SelectPicker from 'react-native-form-select-picker';
 import { Header, Icon } from 'react-native-elements';
 import Typography from '@material-ui/core/Typography';
 import { ScrollView } from 'react-native-gesture-handler';
+import api from '../utils/api';
 
 export default class SignUp extends React.Component {
-  state = {
+  constructor(props) {
+    super(props);
+  this.state = {
     firstname: '',
     lastname: '',
     gender: '',
@@ -27,8 +30,9 @@ export default class SignUp extends React.Component {
     data: {},
     errorMessage: '',
   };
-
-  handleChange = (event) => {
+//  this.handleChange = this.handleChange.bind(this);
+}
+  handleChange = data => {
 //    const { data } = this.state;
 //    this.setState({
 //      data: {
@@ -36,11 +40,11 @@ export default class SignUp extends React.Component {
 //        [event.target.name]: event.target.value,
 //      },
 //    });
-    const newState = this.state;
+//    const newState = this.state;
     if (
-      newState.data.password &&
-      newState.data.confirmPassword &&
-      newState.data.password !== newState.data.confirmPassword
+      data.password &&
+      data.confirmPassword &&
+      data.password !== data.confirmPassword
     ) {
       this.setState({ errorMessage: 'Please enter the password correctly' });
     } else {
@@ -49,7 +53,11 @@ export default class SignUp extends React.Component {
   };
 
   handleSubmit = async () => {
-    const response = await fetch(`http://72240015.ngrok.io/student/signup`, {
+    if (this.state.password != this.state.confirmPassword) {
+      this.setState({ errorMessage: 'Password and confirm password mismatch.' });
+    } else {
+      const reqUrl = api.url + '/student/signup';
+      const response = await fetch(reqUrl, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -65,28 +73,27 @@ export default class SignUp extends React.Component {
         city: this.state.city,
         state: this.state.state,
         country: this.state.country,
-      }),
-    });
-    if (response.status === 200) {
-      this.setState({ errorMessage: '' });
-      this.props.navigation.navigate('RegisterConfirm');
-    } else if (response.status === 409) {
-      this.setState({ errorMessage: 'User already exists.' });
-    } else if (response.status === 401) {
-      this.setState({ errorMessage: 'Missing Details, Please provide all the details.' });
-    } else {
-      this.setState({
-        errorMessage:
-          'There was some error while processing your request. If this continues please contact support. ',
+        }),
       });
+      if (response.status === 200) {
+        this.setState({ errorMessage: '' });
+        this.props.navigation.navigate('RegisterConfirm');
+      } else if (response.status === 409) {
+        this.setState({ errorMessage: 'User already exists.' });
+      } else if (response.status === 401) {
+        this.setState({ errorMessage: 'Missing Details, Please provide all the details.' });
+      } else {
+        this.setState({
+          errorMessage:
+          'There was some error while processing your request. If this continues please contact support. ',
+        });
+      }
     }
   };
-
   render() {
     const { data, errorMessage } = this.state;
     return (
-      <ScrollView>
-      <KeyboardAvoidingView style={styles.container}>
+      <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === "ios" ? "padding" : null}>
         <Header
           style={{ position: 'absolute' }}
           //            leftComponent={< Icon name='menu' color='#fff' />}
@@ -98,6 +105,7 @@ export default class SignUp extends React.Component {
           leftComponent={< Icon name='arrow-back' color='#fff' onPress={() => this.props.navigation.navigate('Home')}/>}
           backgroundColor='#00BFFF'
         />
+        <ScrollView>
           <Text style={{ marginBottom: 10 }}></Text>
           <View style={styles.inputView}>
             <TextInput
@@ -135,7 +143,8 @@ export default class SignUp extends React.Component {
                 color: '#003f5c',
                 borderBottomWidth: 2,
                 borderBottomColor: '#2471A3',
-                width: 150,
+                width: 300,
+                marginLeft:30
               }}
 //              onValueChange={this.handleChange}
               onValueChange={(value) => {this.setState({gender: value})}}
@@ -169,8 +178,8 @@ export default class SignUp extends React.Component {
               secureTextEntry={true}
               required
               name='password'
-              value={data.password}
-              onChangeText={(text) => this.setState({ password: text })}
+              value={this.state.password}
+              onChangeText={(password) => this.setState({password})}
 //              onChangeText={this.handleChange}
             />
           </View>
@@ -182,9 +191,9 @@ export default class SignUp extends React.Component {
               secureTextEntry={true}
               required
               name='confirmPassword'
-              value={data.confirmPassword}
-              onChangeText={(text) => this.setState({ confirmPassword: text })}
-//             onChangeText={this.handleChange}
+              value={this.state.confirmPassword}
+              onChangeText={(confirmPassword) => this.setState({confirmPassword})}
+//              onChangeText={this.handleChange}
             />
           </View>
           <View style={styles.inputView}>
@@ -235,24 +244,15 @@ export default class SignUp extends React.Component {
 //              onChangeText={this.handleChange}
             />
           </View>
-          <Text style={{ color: 'red' }}>{errorMessage}</Text>
-          {/*{errorMessage && (
-            <Typography
-              variant='caption'
-              component='p'
-              style={{ color: 'red', padding: 10 }}
-            >
-              {errorMessage}
-            </Typography>
-          )}*/}
+          <Text style={{ color: 'red', marginLeft: 30 }}>{errorMessage}</Text>
         <TouchableOpacity
           style={styles.signupBtn}
           onPress={() => this.handleSubmit()}
         >
           <Text style={styles.loginText}>Register with Apolita</Text>
         </TouchableOpacity>
-      </KeyboardAvoidingView>
       </ScrollView>
+      </KeyboardAvoidingView>
     );
   }
 }
@@ -261,7 +261,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    alignItems:"center",
+//    alignItems:"center",
     //justifyContent:'center',
     //alignItems:'stretch',
   },
@@ -273,6 +273,8 @@ const styles = StyleSheet.create({
     borderBottomColor: '#2471A3',
     borderBottomWidth: 2,
     padding:1,
+//    justifyContent: 'center',
+    marginLeft: 30,
   },
   inputText:{
     height: 50,
@@ -292,6 +294,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginTop: 10,
     marginBottom: 10,
+    marginLeft: 30
   },
   loginText: {
     color: 'white',

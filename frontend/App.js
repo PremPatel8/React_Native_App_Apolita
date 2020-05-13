@@ -19,6 +19,7 @@ import Playcourse from "./screens/Playcourse";
 import AdminDashboard from "./screens/AdminDashboard";
 import StudentsEnrolled from "./screens/StudentsEnrolled";
 import AddAnnouncement from "./screens/AddAnnouncement";
+import AddCourse from "./screens/AddCourse";
 
 const CustomDrawerContentComponent = (props) => (
   <SafeAreaView style={{ flex:1 }}>
@@ -135,6 +136,9 @@ const AppNavigator = createStackNavigator({
   },
   AddAnnouncement: {
     screen: AddAnnouncement
+  },
+  AddCourse: {
+    screen: AddCourse
   },
 //  Drawer: {
 //    screen: AppDrawerDashboard

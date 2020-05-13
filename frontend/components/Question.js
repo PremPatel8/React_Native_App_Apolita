@@ -4,7 +4,7 @@ import {Text} from 'react-native';
 
 function Question(props) {
   return (
-      <Text>{props.content}</Text>
+      <Text>{props["content"][props["counter"]]["question"]}</Text>
   );
 }
 
